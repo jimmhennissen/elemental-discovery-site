@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Elemental Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --fire:     #B88858;
+    --fire-tip: #9A6C3C;
+    --water:    #A89A84;
+    --air:      #C6BAA8;
+    --earth:    #8C8058;
+    --spirit:   #C8A860;
+    --outline:  #44382C;
+
+    --parchment:    #F2E8D6;
+    --warm-sand:    #F8F0E2;
+    --sand-border:  #DACAB4;
+    --deep-brown:   #44382C;
+    --bark:         #62543E;
+    --dust:         #907E68;
+
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:   'Raleway', sans-serif;
+  }
+
+  html { scroll-behavior:smooth; font-size:16px; }
+  body {
+    background:var(--parchment);
+    color:var(--deep-brown);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .reveal {
+    opacity:0; transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.25,.46,.45,.94),
+               transform 1s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ── Nav ── */
+  nav {
+    position:fixed; top:0; width:100%; z-index:100;
+    padding:24px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:background .5s, box-shadow .5s;
+  }
+  nav.scrolled {
+    background:rgba(242,232,214,.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 1px 14px rgba(68,56,44,.07);
+  }
+  .nav-logo-wrap { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo-wrap img { width:34px; height:34px; }
+  .nav-logo-text {
+    font-family:var(--font-display); font-weight:300; font-size:1.05rem;
+    color:var(--deep-brown); letter-spacing:.06em;
+  }
+  .nav-links {
+    display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+    justify-content:flex-end; max-width:820px;
+  }
+  .nav-links a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--bark); text-decoration:none; margin-left:0; transition:color .3s;
+  }
+  .nav-links a:hover { color:var(--deep-brown); }
+  .nav-dropdown { position:relative; display:inline-flex; align-items:center; }
+  .nav-dropdown > a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--bark); text-decoration:none; transition:color .3s;
+  }
+  .nav-dropdown > a:hover { color:var(--deep-brown); }
+  .dropdown-menu {
+    position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    margin-top:14px; min-width:190px; padding:10px;
+    background:rgba(248,240,226,0.96); backdrop-filter:blur(10px);
+    border:1px solid rgba(68,56,44,0.10); border-radius:14px;
+    box-shadow:0 16px 40px rgba(68,56,44,0.12);
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity .18s ease, visibility .18s ease; z-index:999;
+  }
+  .nav-dropdown::after { content:""; position:absolute; left:0; right:0; top:100%; height:18px; }
+  .nav-dropdown:hover .dropdown-menu {
+    opacity:1; visibility:visible; pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .dropdown-menu a {
+    display:block; padding:10px 12px; border-radius:10px; text-decoration:none;
+    font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--bark); transition:background .2s ease, color .2s ease;
+  }
+  .dropdown-menu a:hover { background:rgba(68,56,44,0.05); color:var(--deep-brown); }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display:inline-block; padding:14px 34px;
+    background:var(--fire); color:#fff;
+    font-family:var(--font-body); font-size:.78rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+    border-radius:24px; border:2.5px solid var(--fire);
+    transition:background .35s, color .35s, box-shadow .35s;
+  }
+  .btn-primary:hover {
+    background:var(--fire-tip); border-color:var(--fire-tip);
+    box-shadow:0 4px 18px rgba(184,136,88,0.28);
+  }
+  .btn-secondary {
+    display:inline-block; font-size:.8rem; letter-spacing:.16em;
+    text-transform:uppercase; background:transparent;
+    color:var(--bark); text-decoration:none;
+    border:2px solid var(--bark); border-radius:24px; padding:12px 28px;
+    transition:border-color .3s, color .3s, background .3s;
+  }
+  .btn-secondary:hover {
+    border-color:var(--deep-brown); color:var(--deep-brown);
+    background:rgba(68,56,44,0.04);
+  }
+
+  /* ── Shared ── */
+  section { position:relative; z-index:1; }
+  .section-inner { max-width:700px; margin:0 auto; padding:0 28px; }
+  .section-label {
+    font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--dust); margin-bottom:18px;
+  }
+  .section-title {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(1.65rem,3vw,2.15rem);
+    color:var(--deep-brown); margin-bottom:30px; line-height:1.3;
+  }
+  .section-title em { font-style:italic; font-weight:300; }
+  .accent-line { width:48px; height:3.5px; border-radius:2px; margin:0 auto 0; }
+
+  .prose {
+    color:var(--bark); font-size:1.02rem;
+    max-width:620px; margin:0 auto;
+    text-align:center; line-height:2.05;
+  }
+  .prose + .prose { margin-top:20px; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:160px 24px 120px;
+    position:relative; overflow:hidden; background:var(--parchment);
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background:url("images/about.webp") center center / cover no-repeat;
+    opacity:.35; pointer-events:none;
+  }
+  .hero-bg::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:260px;
+    background:linear-gradient(to top, var(--parchment) 0%, transparent 100%);
+  }
+  .hero h1 {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(2.1rem,4.8vw,3.4rem);
+    line-height:1.25; color:var(--deep-brown);
+    max-width:700px; position:relative; z-index:1;
+  }
+  .hero-sub {
+    margin-top:28px; font-size:1.04rem; color:var(--bark);
+    max-width:540px; line-height:1.95; position:relative; z-index:1;
+  }
+  .hero-ctas {
+    margin-top:52px; display:flex; gap:28px;
+    align-items:center; flex-wrap:wrap; justify-content:center;
+    position:relative; z-index:1;
+  }
+
+  /* ── Alternating backgrounds ── */
+  .sec-sand { padding:120px 24px; background:var(--warm-sand); }
+  .sec-parch { padding:120px 24px; background:var(--parchment); }
+
+  /* ── Evolution steps ── */
+  .evolution-steps {
+    max-width:560px; margin:48px auto 0;
+  }
+  .evo-step {
+    display:grid; grid-template-columns:32px 1fr; gap:16px;
+    padding:20px 0;
+    border-bottom:1px solid var(--sand-border);
+    align-items:baseline;
+  }
+  .evo-step:last-child { border-bottom:none; }
+  .evo-num {
+    font-family:var(--font-display); font-weight:400;
+    font-size:1.05rem; color:var(--dust); text-align:center;
+  }
+  .evo-step p {
+    font-size:.94rem; color:var(--bark); line-height:1.85;
+  }
+
+  /* ── Final CTA ── */
+  .final-section {
+    position:relative; padding:140px 24px 150px;
+    background:var(--warm-sand); text-align:center;
+    overflow:hidden; border-top:1px solid var(--sand-border);
+  }
+  .final-section::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(184,136,88,0.06) 0%, transparent 45%),
+      radial-gradient(circle at 70% 50%, rgba(168,154,132,0.05) 0%, transparent 45%);
+    pointer-events:none;
+  }
+  .final-section .section-title {
+    color:var(--deep-brown); max-width:540px; margin:0 auto 14px;
+    position:relative; z-index:1;
+  }
+  .final-sub {
+    color:var(--bark); font-size:1rem;
+    max-width:480px; margin:0 auto 48px;
+    line-height:2; position:relative; z-index:1;
+  }
+  .final-ctas {
+    display:flex; gap:24px; justify-content:center; flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .final-section .btn-primary { background:var(--fire); border-color:var(--fire); color:#fff; }
+  .final-section .btn-primary:hover {
+    background:var(--fire-tip); border-color:var(--fire-tip);
+    box-shadow:0 4px 22px rgba(154,108,60,.28);
+  }
+  .final-section .btn-secondary { color:var(--dust); border-color:rgba(144,126,104,.45); }
+  .final-section .btn-secondary:hover {
+    color:var(--deep-brown); border-color:var(--deep-brown);
+    background:rgba(68,56,44,0.04);
+  }
+
+  /* ── Footer ── */
+  footer {
+    background:var(--parchment); border-top:1px solid var(--sand-border);
+    padding:40px 28px; text-align:center;
+  }
+  .footer-logo-wrap {
+    display:flex; align-items:center; justify-content:center;
+    gap:10px; margin-bottom:12px;
+  }
+  .footer-logo-wrap img { width:24px; height:24px; opacity:.6; }
+  .footer-logo-text {
+    font-family:var(--font-display); font-weight:300;
+    font-size:.95rem; color:var(--deep-brown); letter-spacing:.08em;
+  }
+  footer p { font-size:.75rem; color:var(--dust); letter-spacing:.08em; }
+
+  /* ── Responsive ── */
+  @media(max-width:980px){
+    nav { padding:20px 26px; }
+    .nav-links { gap:16px; }
+    .nav-links a { font-size:.72rem; letter-spacing:.14em; }
+  }
+  @media(max-width:520px){
+    .nav-links { gap:12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav id="mainNav">
+  <a href="/" class="nav-logo-wrap">
+    <img src="/images/minimalist logo nobg.png" alt="Elemental Discovery logo" />
+    <span class="nav-logo-text">Elemental Discovery</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <div class="nav-dropdown">
+      <a href="/elements/">Elements</a>
+      <div class="dropdown-menu">
+        <a href="/elements/fire/">Fire</a>
+        <a href="/elements/water/">Water</a>
+        <a href="/elements/air/">Air</a>
+        <a href="/elements/earth/">Earth</a>
+        <a href="/elements/spirit/">Spirit</a>
+      </div>
+    </div>
+    <a href="/offerings/">Offerings</a>
+    <a href="/retreat/">Retreat</a>
+    <a href="/community/">Community</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</nav>
+
+<!-- ══════════ 1. HERO ══════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <h1 class="reveal">Why Elemental Discovery <em>exists</em></h1>
+
+  <p class="hero-sub reveal">
+    Born from years of lived experience — across psychology, martial arts, meditation, and the search for a way of living that could hold the whole human being. Not a brand. A practical response to a real need.
+  </p>
+
+  <div class="hero-ctas reveal">
+    <a href="/elements/" class="btn-primary">Explore the Elements</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<!-- ══════════ 2. THE ORIGIN ══════════ -->
+<section class="sec-sand">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The origin</div>
+    <h2 class="section-title reveal" style="text-align:center">What led <em>to this</em></h2>
+    <div class="accent-line reveal" style="background:var(--fire)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      Elemental Discovery came from a recognition that no single discipline was enough. Psychology addressed the mind but often bypassed the body. Physical training built resilience but rarely touched emotional depth. Meditation cultivated awareness but could become a place to hide. Each piece helped — but none of them, alone, held the whole picture.
+    </p>
+    <p class="prose reveal">
+      The framework emerged from the search for integration: a way to hold action and rest, intensity and softness, clarity and emotion in a single, coherent practice. Not as theory, but as something lived — day by day, in real conditions, with real consequences.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 3. THE PHILOSOPHY ══════════ -->
+<section class="sec-parch">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The philosophy</div>
+    <h2 class="section-title reveal" style="text-align:center">A framework, <em>not a belief system</em></h2>
+    <div class="accent-line reveal" style="background:var(--spirit)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      The five elements — fire, water, air, earth, and spirit — are not metaphors. They are practical lenses for understanding the forces that operate within every person: the drive to act, the capacity to feel, the need for space, the demand for structure, and the thread that connects them all.
+    </p>
+    <p class="prose reveal">
+      This is not a spiritual teaching that asks you to believe something. It is an integration model that asks you to pay attention — to your body, your patterns, your environment, and the quality of your relationships. The framework gives language to what most people already sense but rarely have the tools to work with.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 4. FROM INDIVIDUAL WORK TO COMMUNITY ══════════ -->
+<section class="sec-sand">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The evolution</div>
+    <h2 class="section-title reveal" style="text-align:center">From individual work <em>to shared field</em></h2>
+    <div class="accent-line reveal" style="background:var(--earth)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      The project grew in stages — each one revealing the limits of the last, and the necessity of the next.
+    </p>
+  </div>
+
+  <div class="evolution-steps">
+    <div class="evo-step reveal">
+      <div class="evo-num">1</div>
+      <p>Individual coaching and self-work. Effective for insight, but limited without an embodied container to practice in.</p>
+    </div>
+    <div class="evo-step reveal">
+      <div class="evo-num">2</div>
+      <p>Retreat containers. Structured immersions where training, stillness, and community could operate together. More powerful — but temporary.</p>
+    </div>
+    <div class="evo-step reveal">
+      <div class="evo-num">3</div>
+      <p>A long-term community field. A stable living environment where the work is not something you attend, but something you inhabit. This is what Elemental Discovery is being built toward.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 5. THE FOUNDER ══════════ -->
+<section class="sec-parch">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The founder</div>
+    <h2 class="section-title reveal" style="text-align:center">A word about <em>Jim</em></h2>
+    <div class="accent-line reveal" style="background:var(--water)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      Elemental Discovery is founded and led by one person. Jim's background spans psychology, martial arts, bodywork, meditation, and years of direct experience with anxiety, addiction, and burnout — not as abstract topics, but as personal terrain that had to be walked through.
+    </p>
+    <p class="prose reveal">
+      He is not positioning himself as a guru or spiritual authority. The role he holds is one of responsibility: to protect the integrity of the field, to maintain the structure, and to ensure the project grows with the same honesty it asks of others. He does the work alongside everyone else.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 6. IN FORMATION ══════════ -->
+<section class="sec-sand">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">In formation</div>
+    <h2 class="section-title reveal" style="text-align:center">Honest about <em>where we are</em></h2>
+    <div class="accent-line reveal" style="background:var(--air)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      Elemental Discovery is still forming. This is said without apology — the project is being built carefully, not quickly. The founding group is being selected with intention, based on emotional maturity, reliability, and the willingness to take shared responsibility for something real.
+    </p>
+    <p class="prose reveal">
+      The structure is evolving. The retreat programme is taking shape. The community model is being refined through lived experience, not speculation. What exists now is a clear framework, a committed founder, and a process of building that values integrity over speed.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 7. CLOSING ══════════ -->
+<section class="final-section">
+  <h2 class="section-title reveal">If this resonates, <em>let's talk</em></h2>
+  <p class="final-sub reveal">
+    Whether you are drawn to the retreat, the community vision, or the framework itself — the next step is a conversation.
+  </p>
+  <div class="final-ctas reveal">
+    <a href="/contact/" class="btn-primary">Start a Conversation</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="/images/minimalist logo nobg.png" alt="" />
+    <span class="footer-logo-text">Elemental Discovery</span>
+  </div>
+  <p>&copy; 2025 Elemental Discovery. All rights reserved.</p>
+</footer>
+
+<!-- ── Scroll Reveal ── -->
+<script>
+(function(){
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const siblings = [...entry.target.parentElement.children].filter(el => el.classList.contains('reveal'));
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 110);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  reveals.forEach(el => obs.observe(el));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Community — Elemental Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    /* Accents — golden sepia from the community illustration */
+    --fire:     #B48450;
+    --fire-tip: #966838;
+    --water:    #A89880;
+    --air:      #C4B8A4;
+    --earth:    #8A7E58;
+    --spirit:   #C4A45C;
+    --outline:  #42362A;
+
+    /* Neutrals — warm amber-parchment tones */
+    --parchment:    #F0E6D4;
+    --warm-sand:    #F6EEE0;
+    --sand-border:  #D8CAB4;
+    --deep-brown:   #42362A;
+    --bark:         #60523E;
+    --dust:         #8E7E6A;
+
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:   'Raleway', sans-serif;
+  }
+
+  html { scroll-behavior:smooth; font-size:16px; }
+  body {
+    background:var(--parchment);
+    color:var(--deep-brown);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .reveal {
+    opacity:0; transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.25,.46,.45,.94),
+               transform 1s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ── Nav ── */
+  nav {
+    position:fixed; top:0; width:100%; z-index:100;
+    padding:24px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:background .5s, box-shadow .5s;
+  }
+  nav.scrolled {
+    background:rgba(240,230,212,.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 1px 14px rgba(66,54,42,.07);
+  }
+  .nav-logo-wrap { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo-wrap img { width:34px; height:34px; }
+  .nav-logo-text {
+    font-family:var(--font-display); font-weight:300; font-size:1.05rem;
+    color:var(--deep-brown); letter-spacing:.06em;
+  }
+  .nav-links {
+    display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+    justify-content:flex-end; max-width:820px;
+  }
+  .nav-links a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--bark); text-decoration:none; margin-left:0; transition:color .3s;
+  }
+  .nav-links a:hover { color:var(--deep-brown); }
+  .nav-dropdown { position:relative; display:inline-flex; align-items:center; }
+  .nav-dropdown > a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--bark); text-decoration:none; transition:color .3s;
+  }
+  .nav-dropdown > a:hover { color:var(--deep-brown); }
+  .dropdown-menu {
+    position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    margin-top:14px; min-width:190px; padding:10px;
+    background:rgba(246,238,224,0.96); backdrop-filter:blur(10px);
+    border:1px solid rgba(66,54,42,0.10); border-radius:14px;
+    box-shadow:0 16px 40px rgba(66,54,42,0.12);
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity .18s ease, visibility .18s ease; z-index:999;
+  }
+  .nav-dropdown::after { content:""; position:absolute; left:0; right:0; top:100%; height:18px; }
+  .nav-dropdown:hover .dropdown-menu {
+    opacity:1; visibility:visible; pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .dropdown-menu a {
+    display:block; padding:10px 12px; border-radius:10px; text-decoration:none;
+    font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--bark); transition:background .2s ease, color .2s ease;
+  }
+  .dropdown-menu a:hover { background:rgba(66,54,42,0.05); color:var(--deep-brown); }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display:inline-block; padding:14px 34px;
+    background:var(--fire); color:#fff;
+    font-family:var(--font-body); font-size:.78rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+    border-radius:24px; border:2.5px solid var(--fire);
+    transition:background .35s, color .35s, box-shadow .35s;
+  }
+  .btn-primary:hover {
+    background:var(--fire-tip); border-color:var(--fire-tip);
+    box-shadow:0 4px 18px rgba(180,132,80,0.28);
+  }
+  .btn-secondary {
+    display:inline-block; font-size:.8rem; letter-spacing:.16em;
+    text-transform:uppercase; background:transparent;
+    color:var(--bark); text-decoration:none;
+    border:2px solid var(--bark); border-radius:24px; padding:12px 28px;
+    transition:border-color .3s, color .3s, background .3s;
+  }
+  .btn-secondary:hover {
+    border-color:var(--deep-brown); color:var(--deep-brown);
+    background:rgba(66,54,42,0.04);
+  }
+
+  /* ── Shared ── */
+  section { position:relative; z-index:1; }
+  .section-inner { max-width:700px; margin:0 auto; padding:0 28px; }
+  .section-label {
+    font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--dust); margin-bottom:18px;
+  }
+  .section-title {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(1.65rem,3vw,2.15rem);
+    color:var(--deep-brown); margin-bottom:30px; line-height:1.3;
+  }
+  .section-title em { font-style:italic; font-weight:300; }
+  .accent-line { width:48px; height:3.5px; border-radius:2px; margin:0 auto 0; }
+
+  /* Prose blocks */
+  .prose {
+    color:var(--bark); font-size:1.02rem;
+    max-width:620px; margin:0 auto;
+    text-align:center; line-height:2.05;
+  }
+  .prose + .prose { margin-top:20px; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:160px 24px 120px;
+    position:relative; overflow:hidden; background:var(--parchment);
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background:url("images/community.webp") center center / cover no-repeat;
+    opacity:.4; pointer-events:none;
+  }
+  .hero-bg::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:260px;
+    background:linear-gradient(to top, var(--parchment) 0%, transparent 100%);
+  }
+  .hero h1 {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(2.2rem,5vw,3.6rem);
+    line-height:1.22; color:var(--deep-brown);
+    max-width:680px; position:relative; z-index:1;
+  }
+  .hero-sub {
+    margin-top:28px; font-size:1.04rem; color:var(--bark);
+    max-width:540px; line-height:1.95; position:relative; z-index:1;
+  }
+  .hero-ctas {
+    margin-top:52px; display:flex; gap:28px;
+    align-items:center; flex-wrap:wrap; justify-content:center;
+    position:relative; z-index:1;
+  }
+
+  /* ── Alternating section backgrounds ── */
+  .sec-sand { padding:120px 24px; background:var(--warm-sand); }
+  .sec-parch { padding:120px 24px; background:var(--parchment); }
+
+  /* ── Roles grid ── */
+  .roles-grid {
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:24px; max-width:700px; margin:48px auto 0;
+  }
+  .role-card {
+    padding:32px 28px; border-radius:16px;
+    background:var(--parchment);
+    box-shadow:0 2px 14px rgba(66,54,42,.04);
+  }
+  .sec-parch .role-card { background:var(--warm-sand); }
+  .role-card h4 {
+    font-family:var(--font-display); font-weight:400;
+    font-size:1.05rem; color:var(--deep-brown); margin-bottom:10px;
+  }
+  .role-card p {
+    font-size:.88rem; color:var(--dust); line-height:1.8;
+  }
+  /* shared responsibilities — full width */
+  .role-shared {
+    grid-column:1/-1; max-width:480px; margin:4px auto 0;
+    text-align:center;
+    border:2px dashed var(--sand-border);
+    border-radius:18px;
+    background:linear-gradient(135deg, #f8f2e4 0%, #f4ecda 100%);
+  }
+
+  /* ── Principles list ── */
+  .principles-list {
+    max-width:560px; margin:48px auto 0;
+  }
+  .principle-item {
+    padding:18px 0;
+    border-bottom:1px solid var(--sand-border);
+    display:grid; grid-template-columns:24px 1fr; gap:14px;
+    align-items:baseline;
+  }
+  .principle-item:last-child { border-bottom:none; }
+  .principle-dot {
+    width:8px; height:8px; border-radius:50%;
+    background:var(--spirit); margin-top:8px;
+  }
+  .principle-item p {
+    font-size:.94rem; color:var(--bark); line-height:1.85;
+  }
+
+  /* ── Daily life items ── */
+  .daily-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:20px; max-width:720px; margin:48px auto 0;
+  }
+  .daily-item {
+    text-align:center; padding:28px 18px;
+    border-radius:14px; background:var(--warm-sand);
+  }
+  .sec-sand .daily-item { background:var(--parchment); }
+  .daily-item h4 {
+    font-family:var(--font-display); font-weight:400;
+    font-size:.98rem; color:var(--deep-brown); margin-bottom:8px;
+  }
+  .daily-item p {
+    font-size:.84rem; color:var(--dust); line-height:1.75;
+  }
+
+  /* ── Final CTA ── */
+  .final-section {
+    position:relative; padding:140px 24px 150px;
+    background:var(--warm-sand); text-align:center;
+    overflow:hidden; border-top:1px solid var(--sand-border);
+  }
+  .final-section::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(180,132,80,0.06) 0%, transparent 45%),
+      radial-gradient(circle at 70% 45%, rgba(168,152,128,0.05) 0%, transparent 45%);
+    pointer-events:none;
+  }
+  .final-section .section-title {
+    color:var(--deep-brown); max-width:540px; margin:0 auto 14px;
+    position:relative; z-index:1;
+  }
+  .final-sub {
+    color:var(--bark); font-size:1rem; font-style:italic;
+    max-width:480px; margin:0 auto 48px;
+    line-height:2; position:relative; z-index:1;
+  }
+  .final-ctas {
+    display:flex; gap:24px; justify-content:center; flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .final-section .btn-primary { background:var(--fire); border-color:var(--fire); color:#fff; }
+  .final-section .btn-primary:hover {
+    background:var(--fire-tip); border-color:var(--fire-tip);
+    box-shadow:0 4px 22px rgba(150,104,56,.28);
+  }
+  .final-section .btn-secondary { color:var(--dust); border-color:rgba(142,126,106,.45); }
+  .final-section .btn-secondary:hover {
+    color:var(--deep-brown); border-color:var(--deep-brown);
+    background:rgba(66,54,42,0.04);
+  }
+
+  /* ── Footer ── */
+  footer {
+    background:var(--parchment); border-top:1px solid var(--sand-border);
+    padding:40px 28px; text-align:center;
+  }
+  .footer-logo-wrap {
+    display:flex; align-items:center; justify-content:center;
+    gap:10px; margin-bottom:12px;
+  }
+  .footer-logo-wrap img { width:24px; height:24px; opacity:.6; }
+  .footer-logo-text {
+    font-family:var(--font-display); font-weight:300;
+    font-size:.95rem; color:var(--deep-brown); letter-spacing:.08em;
+  }
+  footer p { font-size:.75rem; color:var(--dust); letter-spacing:.08em; }
+
+  /* ── Responsive ── */
+  @media(max-width:980px){
+    nav { padding:20px 26px; }
+    .nav-links { gap:16px; }
+    .nav-links a { font-size:.72rem; letter-spacing:.14em; }
+    .roles-grid { grid-template-columns:1fr; max-width:440px; }
+    .role-shared { max-width:440px; }
+    .daily-grid { grid-template-columns:repeat(2,1fr); }
+  }
+  @media(max-width:520px){
+    .nav-links { gap:12px; }
+    .daily-grid { grid-template-columns:1fr; max-width:360px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav id="mainNav">
+  <a href="/" class="nav-logo-wrap">
+    <img src="/images/minimalist logo nobg.png" alt="Elemental Discovery logo" />
+    <span class="nav-logo-text">Elemental Discovery</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <div class="nav-dropdown">
+      <a href="/elements/">Elements</a>
+      <div class="dropdown-menu">
+        <a href="/elements/fire/">Fire</a>
+        <a href="/elements/water/">Water</a>
+        <a href="/elements/air/">Air</a>
+        <a href="/elements/earth/">Earth</a>
+        <a href="/elements/spirit/">Spirit</a>
+      </div>
+    </div>
+    <a href="/offerings/">Offerings</a>
+    <a href="/retreat/">Retreat</a>
+    <a href="/community/">Community</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</nav>
+
+<!-- ══════════ 1. HERO ══════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <h1 class="reveal">Community</h1>
+
+  <p class="hero-sub reveal">
+    A structured living environment built on responsibility, emotional honesty, and shared daily practice. Not a temporary experience — an ongoing way of life, sustained by the people who choose to carry it.
+  </p>
+
+  <div class="hero-ctas reveal">
+    <a href="/contact/" class="btn-primary">Express Interest</a>
+    <a href="#vision" class="btn-secondary">Read the Vision</a>
+  </div>
+</section>
+
+<!-- ══════════ 2. COMMUNITY AS A LIVING FIELD ══════════ -->
+<section class="sec-sand" id="vision">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">A living field</div>
+    <h2 class="section-title reveal" style="text-align:center">Stability changes <em>how you feel</em></h2>
+    <div class="accent-line reveal" style="background:var(--water)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      When you live inside a stable, honest environment, your nervous system begins to recalibrate on its own. The hypervigilance that most people carry as normal starts to soften — not through intervention, but through the quiet reliability of the people and rhythms around you.
+    </p>
+    <p class="prose reveal">
+      This is not a place designed to force breakthroughs. Transformation here happens through daily life — through waking at the same time, contributing to shared meals, training together, resolving friction with honesty instead of withdrawal. The consistency does the work.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 3. THE ELEMENTAL FIELD ══════════ -->
+<section class="sec-parch">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The elemental field</div>
+    <h2 class="section-title reveal" style="text-align:center">A shared atmosphere <em>held by everyone</em></h2>
+    <div class="accent-line reveal" style="background:var(--spirit)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      The quality of a community is determined by the emotional clarity of its members. We call this shared atmosphere the field. It is not a concept — it is something you feel when you walk into a room where people are grounded, present, and honest with each other.
+    </p>
+    <p class="prose reveal">
+      Every person's behaviour affects the field. Unresolved reactivity, avoidance, or emotional dishonesty destabilises it. Honest expression, personal responsibility, and clear boundaries strengthen it. The field is not maintained by rules alone — it is maintained by the maturity of the individuals within it.
+    </p>
+    <p class="prose reveal">
+      This is why membership is not open to everyone. The field must be protected, not because we are exclusive, but because stability is the foundation everything else is built on.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 4. STRUCTURE & ROLES ══════════ -->
+<section class="sec-sand">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Structure & Roles</div>
+    <h2 class="section-title reveal" style="text-align:center">Clarity through <em>shared responsibility</em></h2>
+    <div class="accent-line reveal" style="background:var(--earth)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      Structure protects the field. Clear roles prevent ambiguity, reduce interpersonal friction, and ensure that the community functions with integrity — not just intention.
+    </p>
+  </div>
+
+  <div class="roles-grid">
+    <div class="role-card reveal">
+      <h4>Facilitators</h4>
+      <p>Guide training sessions, practices, and group processes. Hold the elemental framework in its embodied form.</p>
+    </div>
+    <div class="role-card reveal">
+      <h4>Mentors</h4>
+      <p>Support newer members through the transition into community living. Offer perspective, not authority.</p>
+    </div>
+    <div class="role-card reveal">
+      <h4>Operations</h4>
+      <p>Manage practical systems: food, maintenance, logistics, scheduling. Keep the daily container functioning cleanly.</p>
+    </div>
+    <div class="role-card reveal">
+      <h4>Safety & Guardians</h4>
+      <p>Hold boundaries when the field is disrupted. Address conflict directly, calmly, and without delay.</p>
+    </div>
+    <div class="role-card role-shared reveal">
+      <h4>All Members</h4>
+      <p>Emotional self-responsibility. Honest communication. Contributing to shared work. Showing up — not just when it's easy, but consistently.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 5. MEMBERSHIP & ENTRY ══════════ -->
+<section class="sec-parch">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Membership & Entry</div>
+    <h2 class="section-title reveal" style="text-align:center">How people <em>join</em></h2>
+    <div class="accent-line reveal" style="background:var(--fire)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      This community is built carefully. Entry is not transactional — it is relational. The stability of the field depends on the people within it, so joining requires mutual trust, not just interest.
+    </p>
+  </div>
+
+  <div class="principles-list">
+    <div class="principle-item reveal">
+      <div class="principle-dot"></div>
+      <p>The founding group is assembled by invitation — people known for their emotional maturity, reliability, and willingness to do the work.</p>
+    </div>
+    <div class="principle-item reveal">
+      <div class="principle-dot"></div>
+      <p>New members enter through a community agreement — a shared understanding of values, expectations, and personal responsibility.</p>
+    </div>
+    <div class="principle-item reveal">
+      <div class="principle-dot"></div>
+      <p>A trial period allows both the individual and the community to assess whether the fit is genuine. This protects everyone.</p>
+    </div>
+    <div class="principle-item reveal">
+      <div class="principle-dot"></div>
+      <p>The founder retains final responsibility for the integrity of the field. This is not authority for its own sake — it is accountability for the whole.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 6. DAILY LIFE & CONTRIBUTION ══════════ -->
+<section class="sec-sand">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Daily life</div>
+    <h2 class="section-title reveal" style="text-align:center">Simple, shared, <em>and structured</em></h2>
+    <div class="accent-line reveal" style="background:var(--air)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      Life here is deliberately simple. The environment is kept modest — not as deprivation, but because simplicity supports clarity. When the external is quieter, the internal becomes more honest.
+    </p>
+  </div>
+
+  <div class="daily-grid">
+    <div class="daily-item reveal">
+      <h4>Weekly Participation</h4>
+      <p>Training, practice sessions, community meetings, and personal reflection are woven into a consistent weekly rhythm.</p>
+    </div>
+    <div class="daily-item reveal">
+      <h4>Shared Work</h4>
+      <p>Everyone contributes to practical upkeep — cooking, cleaning, land care. Labour is not separate from the practice; it is part of it.</p>
+    </div>
+    <div class="daily-item reveal">
+      <h4>Simplicity</h4>
+      <p>Modest living, modest attire. Not as ideology, but because reducing external noise makes it easier to hear what matters.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 7. RELATIONSHIP TO RETREATS ══════════ -->
+<section class="sec-parch">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Community & Retreats</div>
+    <h2 class="section-title reveal" style="text-align:center">The retreat lives <em>inside the field</em></h2>
+    <div class="accent-line reveal" style="background:var(--spirit)"></div>
+
+    <p class="prose reveal" style="margin-top:36px">
+      Retreats do not operate beside the community — they operate within it. Guests enter a living field that is already stable, already functioning, already honest. This is what makes the retreat experience different from most: the environment is not manufactured for the week. It is real, and it was here before the guests arrived.
+    </p>
+    <p class="prose reveal">
+      Members carry the retreat. Their groundedness, consistency, and presence create the container that allows guests to soften, train, and grow. The retreat is temporary. The community is ongoing. One serves the other.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 8. FINAL INVITATION ══════════ -->
+<section class="final-section">
+  <h2 class="section-title reveal">This is built by the people <em>who show up</em></h2>
+  <p class="final-sub reveal">If you are ready to live with structure, honesty, and shared responsibility — we want to hear from you.</p>
+  <div class="final-ctas reveal">
+    <a href="/contact/" class="btn-primary">Express Interest</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="/images/minimalist logo nobg.png" alt="" />
+    <span class="footer-logo-text">Elemental Discovery</span>
+  </div>
+  <p>&copy; 2025 Elemental Discovery. All rights reserved.</p>
+</footer>
+
+<!-- ── Scroll Reveal ── -->
+<script>
+(function(){
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const siblings = [...entry.target.parentElement.children].filter(el => el.classList.contains('reveal'));
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 110);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  reveals.forEach(el => obs.observe(el));
+})();
+</script>
+</body>
+</html>

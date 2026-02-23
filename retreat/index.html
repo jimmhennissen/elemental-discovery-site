@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Retreat — Elemental Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    /* Accents — drawn from the sepia sketch illustration */
+    --fire:     #D4793A;
+    --fire-tip: #B85A1E;
+    --water:    #6AAED4;
+    --air:      #C8C0B4;
+    --earth:    #8A9B5A;
+    --spirit:   #DABA5C;
+    --outline:  #3E3428;
+
+    /* Neutrals — warm sepia/umber from the sketch */
+    --parchment:    #F0E8DA;
+    --warm-sand:    #F6F0E4;
+    --sand-border:  #D8CCBA;
+    --deep-brown:   #3E3428;
+    --bark:         #5E5040;
+    --dust:         #8C7E6E;
+
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:   'Raleway', sans-serif;
+  }
+
+  html { scroll-behavior:smooth; font-size:16px; }
+  body {
+    background:var(--parchment);
+    color:var(--deep-brown);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .reveal {
+    opacity:0; transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.25,.46,.45,.94),
+               transform 1s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ── Nav ── */
+  nav {
+    position:fixed; top:0; width:100%; z-index:100;
+    padding:24px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:background .5s, box-shadow .5s;
+  }
+  nav.scrolled {
+    background:rgba(240,232,218,.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 1px 14px rgba(62,52,40,.07);
+  }
+  .nav-logo-wrap { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo-wrap img { width:34px; height:34px; }
+  .nav-logo-text {
+    font-family:var(--font-display); font-weight:300; font-size:1.05rem;
+    color:var(--deep-brown); letter-spacing:.06em;
+  }
+  .nav-links {
+    display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+    justify-content:flex-end; max-width:820px;
+  }
+  .nav-links a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--bark); text-decoration:none; margin-left:0; transition:color .3s;
+  }
+  .nav-links a:hover { color:var(--deep-brown); }
+  .nav-dropdown { position:relative; display:inline-flex; align-items:center; }
+  .nav-dropdown > a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--bark); text-decoration:none; transition:color .3s;
+  }
+  .nav-dropdown > a:hover { color:var(--deep-brown); }
+  .dropdown-menu {
+    position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    margin-top:14px; min-width:190px; padding:10px;
+    background:rgba(246,240,228,0.96); backdrop-filter:blur(10px);
+    border:1px solid rgba(62,52,40,0.10); border-radius:14px;
+    box-shadow:0 16px 40px rgba(62,52,40,0.12);
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity .18s ease, visibility .18s ease; z-index:999;
+  }
+  .nav-dropdown::after { content:""; position:absolute; left:0; right:0; top:100%; height:18px; }
+  .nav-dropdown:hover .dropdown-menu {
+    opacity:1; visibility:visible; pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .dropdown-menu a {
+    display:block; padding:10px 12px; border-radius:10px; text-decoration:none;
+    font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--bark); transition:background .2s ease, color .2s ease;
+  }
+  .dropdown-menu a:hover { background:rgba(62,52,40,0.05); color:var(--deep-brown); }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display:inline-block; padding:14px 34px;
+    background:var(--fire); color:#fff;
+    font-family:var(--font-body); font-size:.78rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+    border-radius:24px; border:2.5px solid var(--fire);
+    transition:background .35s, color .35s, box-shadow .35s;
+  }
+  .btn-primary:hover {
+    background:var(--fire-tip); border-color:var(--fire-tip);
+    box-shadow:0 4px 18px rgba(184,132,90,0.30);
+  }
+  .btn-secondary {
+    display:inline-block; font-size:.8rem; letter-spacing:.16em;
+    text-transform:uppercase; background:transparent;
+    color:var(--bark); text-decoration:none;
+    border:2px solid var(--bark); border-radius:24px; padding:12px 28px;
+    transition:border-color .3s, color .3s, background .3s;
+  }
+  .btn-secondary:hover {
+    border-color:var(--deep-brown); color:var(--deep-brown);
+    background:rgba(62,52,40,0.04);
+  }
+
+  /* ── Shared ── */
+  section { position:relative; z-index:1; }
+  .section-inner { max-width:700px; margin:0 auto; padding:0 28px; }
+  .section-label {
+    font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--dust); margin-bottom:18px;
+  }
+  .section-title {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(1.65rem,3vw,2.15rem);
+    color:var(--deep-brown); margin-bottom:30px; line-height:1.3;
+  }
+  .section-title em { font-style:italic; font-weight:300; }
+  .accent-line { width:48px; height:3.5px; border-radius:2px; margin:0 auto 0; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:160px 24px 120px;
+    position:relative; overflow:hidden; background:var(--parchment);
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background:url("images/md-sketch.webp") center center / cover no-repeat;
+    opacity:.28; pointer-events:none;
+  }
+  .hero-bg::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:260px;
+    background:linear-gradient(to top, var(--parchment) 0%, transparent 100%);
+  }
+  .hero h1 {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(2.3rem,5.2vw,3.8rem);
+    line-height:1.22; color:var(--deep-brown);
+    max-width:600px; position:relative; z-index:2;
+  }
+  .hero-sub {
+    margin-top:28px; font-size:1.04rem; color:var(--bark);
+    max-width:520px; line-height:1.95; position:relative; z-index:2;
+  }
+  .hero-ctas {
+    margin-top:52px; display:flex; gap:28px;
+    align-items:center; flex-wrap:wrap; justify-content:center;
+    position:relative; z-index:2;
+  }
+
+  /* ── Schedule ── */
+  .schedule-section {
+    padding:120px 24px;
+    background:var(--warm-sand);
+  }
+  .schedule-section .accent-line { background:var(--fire); margin-bottom:40px; }
+  .schedule-intro {
+    color:var(--bark); font-size:1rem;
+    max-width:600px; margin:0 auto 56px;
+    text-align:center; line-height:2;
+  }
+
+  .schedule-list {
+    max-width:580px; margin:0 auto;
+  }
+  .schedule-item {
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:20px;
+    padding:20px 0;
+    border-bottom:1px solid var(--sand-border);
+    align-items:baseline;
+  }
+  .schedule-item:last-child { border-bottom:none; }
+  .schedule-time {
+    font-size:.82rem; letter-spacing:.08em;
+    color:var(--dust); font-weight:400;
+    white-space:nowrap;
+  }
+  .schedule-label {
+    font-family:var(--font-display); font-weight:400;
+    font-size:1.02rem; color:var(--deep-brown);
+  }
+  .schedule-sub {
+    font-size:.84rem; color:var(--dust);
+    line-height:1.7; margin-top:6px;
+  }
+  .schedule-note {
+    text-align:center; margin-top:40px;
+    font-size:.88rem; color:var(--dust);
+    font-style:italic;
+  }
+
+  /* ── Experience ── */
+  .experience-section {
+    padding:110px 24px 130px;
+    background:var(--parchment);
+  }
+  .experience-section .accent-line { background:var(--spirit); margin-bottom:0; }
+  .experience-intro {
+    color:var(--bark); font-size:1.04rem;
+    max-width:600px; margin:36px auto 56px;
+    text-align:center; line-height:2.05;
+  }
+  .experience-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+    max-width:760px; margin:0 auto;
+  }
+  .experience-card {
+    padding:36px 32px;
+    border-radius:16px;
+    background:var(--warm-sand);
+    box-shadow:0 2px 16px rgba(62,52,40,.04);
+    position:relative; overflow:hidden;
+  }
+  .experience-card::before {
+    content:''; position:absolute;
+    top:0; left:24px; right:24px;
+    height:3px; border-radius:0 0 3px 3px;
+  }
+  .experience-card[data-el="air"]::before    { background:var(--air); }
+  .experience-card[data-el="earth"]::before  { background:var(--earth); }
+  .experience-card[data-el="fire"]::before   { background:var(--fire); }
+  .experience-card[data-el="water"]::before  { background:var(--water); }
+  .experience-card-label {
+    font-size:.68rem; letter-spacing:.3em; text-transform:uppercase;
+    margin-bottom:12px; font-weight:500;
+  }
+  .experience-card[data-el="air"] .experience-card-label    { color:var(--air); }
+  .experience-card[data-el="earth"] .experience-card-label  { color:var(--earth); }
+  .experience-card[data-el="fire"] .experience-card-label   { color:var(--fire); }
+  .experience-card[data-el="water"] .experience-card-label  { color:var(--water); }
+  .experience-card p {
+    font-size:.9rem; color:var(--bark); line-height:1.85;
+  }
+
+  /* Spirit — full width distinct */
+  .experience-spirit {
+    grid-column:1/-1;
+    max-width:480px; margin:4px auto 0;
+    padding:36px 36px;
+    border-radius:18px;
+    background:linear-gradient(135deg, #faf7ee 0%, #f5efe2 100%);
+    border:2px dashed var(--spirit);
+    text-align:center;
+    box-shadow:0 2px 14px rgba(62,52,40,.04);
+  }
+  .experience-spirit .experience-card-label { color:var(--spirit); }
+  .experience-spirit p {
+    font-size:.9rem; color:var(--dust);
+    font-style:italic; line-height:1.9;
+    max-width:400px; margin:0 auto;
+  }
+
+  /* ── Who It's For ── */
+  .who-section {
+    padding:120px 24px;
+    background:var(--warm-sand);
+  }
+  .who-section .accent-line { background:var(--water); margin-bottom:40px; }
+  .who-section p {
+    color:var(--bark); font-size:1.04rem;
+    max-width:600px; margin:0 auto;
+    text-align:center; line-height:2.05;
+  }
+
+  /* ── Practical ── */
+  .practical-section {
+    padding:110px 24px;
+    background:var(--parchment);
+  }
+  .practical-section .accent-line { background:var(--earth); margin-bottom:48px; }
+  .practical-list {
+    max-width:420px; margin:0 auto;
+  }
+  .practical-item {
+    padding:14px 0;
+    border-bottom:1px solid var(--sand-border);
+    font-size:.94rem; color:var(--bark);
+    letter-spacing:.02em;
+  }
+  .practical-item:last-child { border-bottom:none; }
+
+  /* ── Final CTA ── */
+  .final-section {
+    position:relative;
+    padding:140px 24px 150px;
+    background:var(--warm-sand);
+    text-align:center; overflow:hidden;
+    border-top:1px solid var(--sand-border);
+  }
+  .final-section::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(184,132,90,0.06) 0%, transparent 45%),
+      radial-gradient(circle at 70% 45%, rgba(160,153,142,0.05) 0%, transparent 45%),
+      radial-gradient(circle at 50% 85%, rgba(138,128,96,0.04) 0%, transparent 40%);
+    pointer-events:none;
+  }
+  .final-section .section-title {
+    color:var(--deep-brown); max-width:540px; margin:0 auto 14px;
+    position:relative; z-index:1;
+  }
+  .final-sub {
+    color:var(--bark); font-size:1rem; font-style:italic;
+    max-width:460px; margin:0 auto 48px;
+    line-height:2; position:relative; z-index:1;
+  }
+  .final-ctas {
+    display:flex; gap:24px;
+    justify-content:center; flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .final-section .btn-primary { background:var(--fire); border-color:var(--fire); color:#fff; }
+  .final-section .btn-primary:hover {
+    background:var(--fire-tip); border-color:var(--fire-tip);
+    box-shadow:0 4px 22px rgba(154,104,64,.28);
+  }
+  .final-section .btn-secondary { color:var(--dust); border-color:rgba(140,126,110,.45); }
+  .final-section .btn-secondary:hover {
+    color:var(--deep-brown); border-color:var(--deep-brown);
+    background:rgba(62,52,40,0.04);
+  }
+
+  /* ── Footer ── */
+  footer {
+    background:var(--parchment); border-top:1px solid var(--sand-border);
+    padding:40px 28px; text-align:center;
+  }
+  .footer-logo-wrap {
+    display:flex; align-items:center; justify-content:center;
+    gap:10px; margin-bottom:12px;
+  }
+  .footer-logo-wrap img { width:24px; height:24px; opacity:.6; }
+  .footer-logo-text {
+    font-family:var(--font-display); font-weight:300;
+    font-size:.95rem; color:var(--deep-brown); letter-spacing:.08em;
+  }
+  footer p { font-size:.75rem; color:var(--dust); letter-spacing:.08em; }
+
+  /* ── Responsive ── */
+  @media(max-width:980px){
+    nav { padding:20px 26px; }
+    .nav-links { gap:16px; }
+    .nav-links a { font-size:.72rem; letter-spacing:.14em; }
+    .experience-grid { grid-template-columns:1fr; max-width:480px; }
+    .experience-spirit { max-width:480px; }
+    .schedule-item { grid-template-columns:100px 1fr; gap:14px; }
+  }
+  @media(max-width:520px){
+    .nav-links { gap:12px; }
+    .schedule-item { grid-template-columns:1fr; gap:4px; }
+    .schedule-time { font-size:.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav id="mainNav">
+  <a href="/" class="nav-logo-wrap">
+    <img src="/images/minimalist logo nobg.png" alt="Elemental Discovery logo" />
+    <span class="nav-logo-text">Elemental Discovery</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <div class="nav-dropdown">
+      <a href="/elements/">Elements</a>
+      <div class="dropdown-menu">
+        <a href="/elements/fire/">Fire</a>
+        <a href="/elements/water/">Water</a>
+        <a href="/elements/air/">Air</a>
+        <a href="/elements/earth/">Earth</a>
+        <a href="/elements/spirit/">Spirit</a>
+      </div>
+    </div>
+    <a href="/offerings/">Offerings</a>
+    <a href="/retreat/">Retreat</a>
+    <a href="/community/">Community</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</nav>
+
+<!-- ══════════ 1. HERO ══════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <h1 class="reveal">Retreat</h1>
+
+  <p class="hero-sub reveal">
+    A structured immersion into the five elements. Days built around training, stillness, nature, and honest community — balancing intensity with restoration, action with integration.
+  </p>
+
+  <div class="hero-ctas reveal">
+    <a href="/contact/" class="btn-primary">Apply for the Retreat</a>
+    <a href="/offerings/" class="btn-secondary">Explore the Offerings</a>
+  </div>
+</section>
+
+<!-- ══════════ 2. DAILY RHYTHM ══════════ -->
+<section class="schedule-section">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Daily Rhythm</div>
+    <h2 class="section-title reveal" style="text-align:center">A day <em>in the retreat</em></h2>
+    <div class="accent-line reveal"></div>
+  </div>
+
+  <p class="schedule-intro reveal">
+    This is an example day. The morning and evening structure stays consistent; the afternoon element block rotates across the week to create balance. The rhythm holds the work.
+  </p>
+
+  <div class="schedule-list">
+    <div class="schedule-item reveal">
+      <div class="schedule-time">08:00 – 09:00</div>
+      <div>
+        <div class="schedule-label">Meditation</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">09:15 – 10:45</div>
+      <div>
+        <div class="schedule-label">Martial Arts Training</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">10:45 – 13:00</div>
+      <div>
+        <div class="schedule-label">Brunch + Integration</div>
+        <div class="schedule-sub">Free time, recovery, reflection</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">13:00 – 16:00</div>
+      <div>
+        <div class="schedule-label">Element Block (rotating)</div>
+        <div class="schedule-sub">Hiking and nature immersion, coaching sessions, group practice, knowledge sessions, workshops, community activities</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">16:15 – 17:30</div>
+      <div>
+        <div class="schedule-label">Martial Arts Training</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">17:30 – 18:30</div>
+      <div>
+        <div class="schedule-label">Dinner + Free Time</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">20:00 – 20:45</div>
+      <div>
+        <div class="schedule-label">Meditation</div>
+      </div>
+    </div>
+    <div class="schedule-item reveal">
+      <div class="schedule-time">20:45 – 21:30</div>
+      <div>
+        <div class="schedule-label">Yin Yoga</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="schedule-note reveal">Fruit is available throughout the day.</p>
+</section>
+
+<!-- ══════════ 3. THE EXPERIENCE ══════════ -->
+<section class="experience-section">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The Experience</div>
+    <h2 class="section-title reveal" style="text-align:center">Not escape. <em>Recalibration.</em></h2>
+    <div class="accent-line reveal"></div>
+  </div>
+
+  <p class="experience-intro reveal">
+    Structure that creates freedom. A week of embodied balance — where intensity and stillness alternate by design, and every element is given its place.
+  </p>
+
+  <div class="experience-grid">
+    <div class="experience-card reveal" data-el="air">
+      <div class="experience-card-label">Air</div>
+      <p>Morning and evening meditation anchor each day. Space to observe, breathe, and return to clarity before the next wave of engagement.</p>
+    </div>
+    <div class="experience-card reveal" data-el="earth">
+      <div class="experience-card-label">Earth</div>
+      <p>Hiking, outdoor practice, and coaching give form to insight. Structure you can feel in the body — not just understand in the mind.</p>
+    </div>
+    <div class="experience-card reveal" data-el="fire">
+      <div class="experience-card-label">Fire</div>
+      <p>Two martial arts sessions a day. Heat, discipline, and the direct confrontation with limits that only physical training can provide.</p>
+    </div>
+    <div class="experience-card reveal" data-el="water">
+      <div class="experience-card-label">Water</div>
+      <p>Yin yoga closes each day. Integration time between sessions allows what was activated to settle, soften, and be absorbed.</p>
+    </div>
+
+    <div class="experience-spirit reveal">
+      <div class="experience-card-label">Spirit</div>
+      <p>Shared meals, shared training, shared silence. Community not as an idea, but as daily practice — the element that emerges when everything else aligns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 4. WHO IT'S FOR ══════════ -->
+<section class="who-section">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Who it's for</div>
+    <h2 class="section-title reveal" style="text-align:center">People ready to <em>do the work</em></h2>
+    <div class="accent-line reveal"></div>
+
+    <p class="reveal" style="margin-top:36px">
+      This retreat is for people who want structure, not spectacle. Who are willing to train, reflect, and live in shared rhythm with others. Who understand that growth asks something of you — early mornings, honest effort, and the discipline to stay present when it would be easier not to. If that resonates, you belong here.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 5. PRACTICAL ══════════ -->
+<section class="practical-section">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">Practical</div>
+    <h2 class="section-title reveal" style="text-align:center">What's <em>included</em></h2>
+    <div class="accent-line reveal"></div>
+  </div>
+
+  <div class="practical-list">
+    <div class="practical-item reveal">Multi-day immersion</div>
+    <div class="practical-item reveal">Shared meals</div>
+    <div class="practical-item reveal">Daily training and practice</div>
+    <div class="practical-item reveal">Nature time</div>
+    <div class="practical-item reveal">Coaching and integration</div>
+    <div class="practical-item reveal">Community living</div>
+  </div>
+</section>
+
+<!-- ══════════ 6. FINAL INVITATION ══════════ -->
+<section class="final-section">
+  <h2 class="section-title reveal">Ready to step <em>into it?</em></h2>
+  <p class="final-sub reveal">This isn't information. It's participation.</p>
+  <div class="final-ctas reveal">
+    <a href="/contact/" class="btn-primary">Apply for the Retreat</a>
+    <a href="/offerings/" class="btn-secondary">View Offerings</a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="/images/minimalist logo nobg.png" alt="" />
+    <span class="footer-logo-text">Elemental Discovery</span>
+  </div>
+  <p>&copy; 2025 Elemental Discovery. All rights reserved.</p>
+</footer>
+
+<!-- ── Scroll Reveal ── -->
+<script>
+(function(){
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const siblings = [...entry.target.parentElement.children].filter(el => el.classList.contains('reveal'));
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 110);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  reveals.forEach(el => obs.observe(el));
+})();
+</script>
+</body>
+</html>

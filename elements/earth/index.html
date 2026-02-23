@@ -1,0 +1,581 @@
+<!-- earth.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Earth — Elemental Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --fire:     #E8915D;
+    --fire-tip: #D45A2A;
+    --water:    #6B9BBF;
+    --air:      #B8B5B0;
+    --earth:    #7AAE6D;
+    --spirit:   #F0C94D;
+    --outline:  #2B2B2B;
+
+    --cream:      #F6F2EC;
+    --warm-white:#FAF8F5;
+    --sand:       #E8DDD3;
+    --deep-earth:#2B2B2B;
+    --stone:      #5E5549;
+    --mist:       #8E8580;
+
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:   'Raleway', sans-serif;
+
+    --accent:     var(--earth);
+    --accent-alt: #5F9452;
+  }
+
+  html { scroll-behavior:smooth; font-size:16px; }
+  body {
+    background:var(--cream);
+    color:var(--deep-earth);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .reveal {
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.25,.46,.45,.94),
+               transform 1s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  nav {
+    position:fixed; top:0; width:100%; z-index:100;
+    padding:24px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:background .5s, box-shadow .5s;
+  }
+  nav.scrolled {
+    background:rgba(246,242,236,.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 1px 14px rgba(43,43,43,.07);
+  }
+  .nav-logo-wrap {
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none;
+  }
+  .nav-logo-wrap img { width:34px; height:34px; }
+  .nav-logo-text {
+    font-family:var(--font-display);
+    font-weight:300; font-size:1.05rem;
+    color:var(--deep-earth);
+    letter-spacing:.06em;
+  }
+  .nav-links {
+    display:flex;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:820px;
+  }
+  .nav-links a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--stone); text-decoration:none; margin-left:0;
+    transition:color .3s;
+  }
+  .nav-links a:hover { color:var(--deep-earth); }
+
+  .nav-dropdown {
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+  }
+  .nav-dropdown > a {
+    font-size:.78rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--stone);
+    text-decoration:none;
+    transition:color .3s;
+  }
+  .nav-dropdown > a:hover { color:var(--deep-earth); }
+  .dropdown-menu {
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    margin-top:14px;
+    min-width:190px;
+    padding:10px;
+    background:rgba(250,248,245,0.96);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(43,43,43,0.10);
+    border-radius:14px;
+    box-shadow:0 16px 40px rgba(43,43,43,0.12);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .18s ease, visibility .18s ease, transform .18s ease;
+    z-index:999;
+  }
+  .nav-dropdown::after {
+    content:"";
+    position:absolute;
+    left:0; right:0;
+    top:100%;
+    height:18px;
+  }
+  .nav-dropdown:hover .dropdown-menu {
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .dropdown-menu a {
+    display:block;
+    padding:10px 12px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:.75rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--stone);
+    transition:background .2s ease, color .2s ease;
+  }
+  .dropdown-menu a:hover {
+    background:rgba(43,43,43,0.05);
+    color:var(--deep-earth);
+  }
+
+  .btn-primary {
+    display:inline-block;
+    padding:14px 34px;
+    background:var(--accent);
+    color:#fff;
+    font-family:var(--font-body);
+    font-size:.78rem;
+    font-weight:500;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    text-decoration:none;
+    border-radius:24px;
+    border:2.5px solid var(--accent);
+    transition:background .35s, color .35s, box-shadow .35s;
+  }
+  .btn-primary:hover {
+    background:var(--accent-alt);
+    border-color:var(--accent-alt);
+    box-shadow:0 4px 18px rgba(122,174,109,0.28);
+  }
+  .btn-secondary {
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:.8rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    background:transparent;
+    color:var(--stone);
+    text-decoration:none;
+    border:2px solid var(--stone);
+    border-radius:24px;
+    padding:12px 28px;
+    transition:border-color .3s, color .3s, background .3s;
+  }
+  .btn-secondary:hover {
+    border-color:var(--deep-earth);
+    color:var(--deep-earth);
+    background:rgba(43,43,43,0.04);
+  }
+
+  section { position:relative; z-index:1; }
+  .section-inner { max-width:700px; margin:0 auto; padding:0 28px; }
+  .section-label {
+    font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--mist); margin-bottom:18px;
+  }
+  .section-title {
+    font-family:var(--font-display);
+    font-weight:300;
+    font-size:clamp(1.65rem,3vw,2.15rem);
+    color:var(--deep-earth);
+    margin-bottom:30px; line-height:1.3;
+  }
+  .section-title em { font-style:italic; font-weight:300; }
+  .accent-line {
+    width:48px; height:3.5px;
+    border-radius:2px;
+    background:var(--accent);
+    margin:0 auto 0;
+  }
+
+  .hero {
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:180px 24px 120px;
+    position:relative;
+    overflow:hidden;
+    background:url("images/earthbackground1.webp") center / cover no-repeat;
+  }
+  .hero::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(246,242,236,0.55) 0%, rgba(246,242,236,0.35) 40%, rgba(246,242,236,0.6) 100%),
+      radial-gradient(circle at 50% 50%, rgba(122,174,109,0.08) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .hero::after {
+    content:'';
+    position:absolute;
+    width:680px; height:680px;
+    border-radius:50%;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    animation:wash 20s ease-in-out infinite alternate;
+  }
+  @keyframes wash {
+    0%   { transform:translate(-50%,-50%) scale(1); }
+    100% { transform:translate(-50%,-50%) scale(1.06); }
+  }
+  .hero h1 {
+    font-family:var(--font-display);
+    font-weight:300;
+    font-size:clamp(2.3rem,5.2vw,3.8rem);
+    line-height:1.22;
+    color:var(--deep-earth);
+    max-width:680px;
+    position:relative; z-index:1;
+  }
+  .hero-sub {
+    margin-top:24px;
+    font-size:1.04rem;
+    color:var(--stone);
+    max-width:460px;
+    line-height:1.9;
+    position:relative; z-index:1;
+  }
+  .hero-ctas {
+    margin-top:52px;
+    display:flex; gap:28px;
+    align-items:center; flex-wrap:wrap;
+    justify-content:center;
+    position:relative; z-index:1;
+  }
+
+  .what-section {
+    padding:120px 24px;
+    background:var(--cream);
+  }
+  .what-section .accent-line { margin-bottom:40px; }
+  .what-section p {
+    color:var(--stone);
+    font-size:1.06rem;
+    max-width:600px;
+    margin:0 auto;
+    text-align:center;
+    line-height:2;
+  }
+
+  .balance-section {
+    padding:110px 24px;
+    background:var(--warm-white);
+  }
+  .balance-header { text-align:center; margin-bottom:60px; }
+  .balance-header .accent-line { margin-bottom:0; }
+  .balance-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px;
+    max-width:820px;
+    margin:0 auto;
+  }
+  .balance-card {
+    padding:40px 32px;
+    border-radius:16px;
+    background:#fff;
+    box-shadow:0 2px 18px rgba(43,43,43,.06);
+  }
+  .balance-card h4 {
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:1.08rem;
+    color:var(--deep-earth);
+    margin-bottom:16px;
+  }
+  .balance-card p {
+    font-size:.92rem;
+    color:var(--stone);
+    line-height:1.9;
+  }
+  .balance-card.in-balance { border-top:4px solid var(--accent); }
+  .balance-card.out-balance { border-top:4px solid var(--sand); }
+
+  .practices-section {
+    padding:110px 24px;
+    background:var(--cream);
+  }
+  .practices-header { text-align:center; margin-bottom:60px; }
+  .practices-header .accent-line { margin-bottom:0; }
+  .practices-list { max-width:640px; margin:0 auto; }
+  .practice-item {
+    padding:28px 0;
+    border-bottom:1px solid var(--sand);
+  }
+  .practice-item:last-child { border-bottom:none; }
+  .practice-item h4 {
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:1.05rem;
+    color:var(--deep-earth);
+    margin-bottom:8px;
+  }
+  .practice-item p {
+    font-size:.9rem;
+    color:var(--stone);
+    line-height:1.85;
+  }
+
+  .integration-section {
+    position:relative;
+    padding:140px 24px 150px;
+    background:var(--warm-white);
+    text-align:center;
+    overflow:hidden;
+    border-top:1px solid var(--sand);
+  }
+  .integration-section::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(122,174,109,0.06) 0%, transparent 50%);
+    pointer-events:none;
+  }
+  .integration-section .section-label,
+  .integration-section .section-title,
+  .integration-section p,
+  .integration-section .integration-ctas {
+    position:relative; z-index:1;
+  }
+  .integration-section .section-title {
+    max-width:540px;
+    margin:0 auto 18px;
+  }
+  .integration-section .inv-sub {
+    color:var(--stone);
+    font-size:1rem;
+    max-width:460px;
+    margin:0 auto 48px;
+    line-height:2;
+  }
+  .integration-ctas {
+    display:flex; gap:24px;
+    justify-content:center; flex-wrap:wrap;
+  }
+
+  footer {
+    background:var(--cream);
+    border-top:1px solid var(--sand);
+    padding:40px 28px;
+    text-align:center;
+  }
+  .footer-logo-wrap {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .footer-logo-wrap img { width:24px; height:24px; opacity:.6; }
+  .footer-logo-text {
+    font-family:var(--font-display);
+    font-weight:300;
+    font-size:.95rem;
+    color:var(--deep-earth);
+    letter-spacing:.08em;
+  }
+  footer p {
+    font-size:.75rem;
+    color:var(--mist);
+    letter-spacing:.08em;
+  }
+
+  @media(max-width:980px){
+    nav { padding:20px 26px; }
+    .nav-links { gap:16px; }
+    .nav-links a { font-size:.72rem; letter-spacing:.14em; }
+    .balance-grid { grid-template-columns:1fr; max-width:520px; }
+  }
+  @media(max-width:520px){
+    .nav-links { gap:12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav id="mainNav">
+  <a href="/" class="nav-logo-wrap">
+    <img src="images/minimalist logo nobg.png" alt="Elemental Discovery logo" />
+    <span class="nav-logo-text">Elemental Discovery</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <div class="nav-dropdown">
+      <a href="/elements/">Elements</a>
+      <div class="dropdown-menu">
+        <a href="/elements/fire/">Fire</a>
+        <a href="/elements/water/">Water</a>
+        <a href="/elements/air/">Air</a>
+        <a href="/elements/earth/">Earth</a>
+        <a href="/elements/spirit/">Spirit</a>
+      </div>
+    </div>
+    <a href="/offerings/">Offerings</a>
+    <a href="/retreat/">Retreat</a>
+    <a href="/community/">Community</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</nav>
+
+<!-- ══════════ 1. HERO ══════════ -->
+<section class="hero" id="top">
+  <h1 class="reveal">
+    Earth — the element<br>
+    of ground and body
+  </h1>
+  <p class="hero-sub reveal">
+    The foundation beneath everything — structure, presence, and the steady discipline of showing up in your own life.
+  </p>
+  <div class="hero-ctas reveal">
+    <a href="/analysis/" class="btn-primary">Free Elemental Analysis</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<!-- ══════════ 2. WHAT IT IS ══════════ -->
+<section class="what-section">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The element</div>
+    <h2 class="section-title reveal" style="text-align:center">What Earth <em>is</em></h2>
+    <div class="accent-line reveal"></div>
+    <p class="reveal" style="margin-top:36px">
+      Earth is the principle of embodied presence — the part of you that belongs to the physical world and knows it. It governs structure, routine, health, and the kind of grounded action that doesn't need applause. Earth is not glamorous. It is the element that does the work, day after day, without fanfare.
+    </p>
+    <p class="reveal" style="margin-top:20px">
+      In the body, earth is literally the body: bones, muscles, feet on the ground. In the psyche, it is reliability, patience, and the deep security that comes not from external achievement but from knowing you can sustain yourself. Earth is what holds you when everything else shifts.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 3. IN BALANCE / OUT OF BALANCE ══════════ -->
+<section class="balance-section">
+  <div class="balance-header">
+    <div class="section-label reveal">The spectrum</div>
+    <h2 class="section-title reveal">In balance and <em>out of it</em></h2>
+    <div class="accent-line reveal"></div>
+  </div>
+  <div class="balance-grid">
+    <div class="balance-card in-balance reveal">
+      <h4>In Balance</h4>
+      <p>
+        You feel rooted. Your body is something you live in, not something you drag around. You have routines that serve you — sleep, food, movement — and they feel natural, not forced. Commitments are kept. Boundaries are clear. There's a quiet confidence in your relationship with the material world.
+      </p>
+    </div>
+    <div class="balance-card out-balance reveal">
+      <h4>Out of Balance</h4>
+      <p>
+        Too much earth becomes rigidity, stubbornness, or an attachment to control. Comfort zones calcify. Too little, and you feel unmoored — scattered routines, neglected health, the sense that nothing in your life has a real foundation. Both extremes share a disconnection from the body as home.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 4. PRACTICES ══════════ -->
+<section class="practices-section">
+  <div class="practices-header">
+    <div class="section-label reveal">Working with earth</div>
+    <h2 class="section-title reveal">Practices</h2>
+    <div class="accent-line reveal"></div>
+  </div>
+  <div class="practices-list">
+    <div class="practice-item reveal">
+      <h4>Feet on the Ground</h4>
+      <p>Stand barefoot on natural ground for five minutes. Grass, soil, stone — it doesn't matter. Feel the weight of your body pressing down. This is not metaphor. The nervous system responds to direct contact with the earth in measurable ways.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>The One Non-Negotiable</h4>
+      <p>Choose one small daily structure and protect it without exception — a walk, a meal cooked from scratch, ten minutes of stretching. Earth is built through consistency, not intensity. One reliable anchor holds more weight than five ambitious ones.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>Working with Hands</h4>
+      <p>Gardening, cooking, building, cleaning. Anything that connects your hands to material reality. Earth element comes alive through tangible work. The mind quiets when the body is purposefully engaged with something real.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>Body Inventory</h4>
+      <p>Once a week, sit quietly and ask: how is my body actually doing? Not how it looks — how it feels. Where is it tight, tired, neglected? Earth asks you to tend to the vessel, not as a project, but as a relationship.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>Environmental Care</h4>
+      <p>Clean one space in your home with full attention. Organise a drawer. Tend a plant. Your outer environment mirrors your inner ground. When the space around you has order, the earth element within you steadies.</p>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:52px;" class="reveal">
+    <a href="/offerings/" class="btn-primary">Explore All Offerings</a>
+  </div>
+</section>
+
+<!-- ══════════ 5. INTEGRATION ══════════ -->
+<section class="integration-section">
+  <div class="section-label reveal">Integration</div>
+  <h2 class="section-title reveal">Earth doesn't exist<br><em>in isolation</em></h2>
+  <p class="inv-sub reveal">
+    Earth without fire becomes inertia. Without air, it loses perspective. Without water, it dries into mere duty. The ground is not a prison — it's a platform. The work is to build a foundation strong enough to support the life you actually want to live on it.
+  </p>
+  <div class="integration-ctas reveal">
+    <a href="/analysis/" class="btn-primary">Free Elemental Analysis</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="images/minimalist logo nobg.png" alt="" />
+    <span class="footer-logo-text">Elemental Discovery</span>
+  </div>
+  <p>&copy; 2025 Elemental Discovery. All rights reserved.</p>
+</footer>
+
+<script>
+(function(){
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const siblings = [...entry.target.parentElement.children].filter(el => el.classList.contains('reveal'));
+        const idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = `${idx * 120}ms`;
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.15 });
+  reveals.forEach(el => obs.observe(el));
+})();
+</script>
+
+</body>
+</html>

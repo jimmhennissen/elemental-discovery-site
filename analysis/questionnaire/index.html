@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Elemental Balance Questionnaire | Elemental Discovery</title>
+  <meta name="description" content="Complete the Elemental Balance Questionnaire and receive your analysis by email." />
+
+  <!-- ED typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS  –  Elemental Discovery shared palette
+       ============================================================ */
+    :root {
+      /* Backgrounds */
+      --cream:       #f7f2ea;
+      --cream-deep:  #faf6f0;
+      --paper:       #fffaf3;
+
+      /* Text */
+      --ink:         #1a1a1a;
+      --ink-soft:    #2f2a25;
+      --muted:       #6b6056;
+      --soft-line:   #e0d0be;
+
+      /* Element accents */
+      --earth:       #5a3a24;
+      --fire:        #c7561c;
+      --water:       #2563eb;
+      --spirit:      #d6a84b;
+      --air:         #b8a48a;
+      --nature:      #4a8f3f;
+
+      /* UI colours */
+      --accent-main: var(--earth);
+      --accent-fire: var(--fire);
+      --accent-deep: #3d2515;
+      --error-bg:    #fef2f2;
+      --error-border:#fca5a5;
+      --error-text:  #991b1b;
+
+      /* Radii */
+      --radius-sm:   10px;
+      --radius-md:   14px;
+      --radius-lg:   18px;
+      --radius-xl:   26px;
+      --radius-pill: 999px;
+
+      /* Shadows */
+      --shadow-soft:  0 18px 40px rgba(15,23,42,.12);
+      --shadow-btn:   0 10px 26px rgba(60,36,16,.18);
+
+      /* Layout */
+      --max: 1040px;
+
+      /* Typography */
+      --font-heading: 'Cormorant Garamond', ui-serif, Georgia, 'Times New Roman', serif;
+      --font-body:    'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% -5%, rgba(199,86,28,.09), transparent 55%),
+        radial-gradient(ellipse at 80% 100%, rgba(90,58,36,.06), transparent 55%),
+        var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+       TOP NAV  –  matches ED site header
+       ============================================================ */
+    header {
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(247,242,234,.92);
+      border-bottom: 1px solid rgba(210,190,168,.85);
+    }
+    .nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .brand img {
+      height: 34px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+    }
+    .brand strong {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /* ============================================================
+       BUTTONS  –  ED shared button styles
+       ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 22px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: .88rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      border: 2px solid rgba(90,58,36,.22);
+      background: rgba(255,250,243,.92);
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: transform .14s ease-out, box-shadow .14s ease-out,
+                  background .14s ease-out, border-color .14s ease-out;
+      white-space: nowrap;
+      text-decoration: none;
+      line-height: 1.35;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(90,58,36,.35);
+      box-shadow: 0 10px 26px rgba(60,36,16,.12);
+    }
+    .btn:active { transform: translateY(0); }
+    .btn:focus-visible {
+      outline: 2px solid var(--fire);
+      outline-offset: 2px;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent-main), var(--accent-fire));
+      color: #fff;
+      border-color: rgba(42,25,16,.7);
+      box-shadow: var(--shadow-btn);
+    }
+    .btn.primary:hover {
+      box-shadow: 0 14px 32px rgba(60,36,16,.3);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border-color: rgba(90,58,36,.18);
+    }
+    .btn.ghost:hover {
+      background: rgba(90,58,36,.05);
+    }
+
+    /* Small back arrow icon */
+    .btn .arrow-left {
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 1.05em;
+      line-height: 1;
+    }
+
+    /* ============================================================
+       PAGE LAYOUT
+       ============================================================ */
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* ============================================================
+       CARD  –  ED card style
+       ============================================================ */
+    .card {
+      background: rgba(255,250,243,.97);
+      border-radius: var(--radius-xl);
+      border: 1.5px solid rgba(220,208,189,.9);
+      box-shadow: var(--shadow-soft);
+      padding: 32px 30px 28px;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+       ============================================================ */
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      letter-spacing: .01em;
+      margin: 0;
+      color: var(--ink);
+    }
+    h1 {
+      font-size: clamp(1.85rem, 2.5vw + 1rem, 2.6rem);
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: clamp(1.35rem, 1.6vw + .8rem, 1.6rem);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .lead {
+      margin: 0 0 4px;
+      color: var(--muted);
+      max-width: 68ch;
+      font-size: .95rem;
+      line-height: 1.65;
+    }
+    .note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+
+    /* ============================================================
+       PROGRESS BAR
+       ============================================================ */
+    .progress {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .bar {
+      flex: 1;
+      min-width: 200px;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(90,58,36,.08);
+      border: 1px solid rgba(90,58,36,.08);
+      overflow: hidden;
+    }
+    .bar > div {
+      height: 100%;
+      width: 0%;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, var(--accent-fire), var(--accent-main));
+      transition: width .4s cubic-bezier(.25,.8,.25,1);
+    }
+    .stepLabel {
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--muted);
+      white-space: nowrap;
+      letter-spacing: .02em;
+    }
+
+    /* ============================================================
+       FORM BASICS
+       ============================================================ */
+    form { margin-top: 22px; }
+    .step { display: none; }
+    .step.active { display: block; animation: fadeUp .35s ease-out; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section title row */
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 0 0 14px;
+    }
+
+    /* Chip / tag */
+    .chip {
+      font-family: var(--font-body);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #7a5a32;
+      background: rgba(250,234,209,.92);
+      border: 1px solid rgba(227,198,160,.85);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       FORM FIELDS  –  Step 1
+       ============================================================ */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      letter-spacing: .01em;
+    }
+    .field .label-opt {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      font: inherit;
+      font-size: .92rem;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(215,204,186,.92);
+      background: #fffdfb;
+      color: var(--ink);
+      min-height: 44px;
+      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-main);
+      box-shadow: 0 0 0 3px rgba(90,58,36,.1);
+      background: #fff;
+    }
+    input:invalid:not(:placeholder-shown):not(:focus) {
+      border-color: var(--error-border);
+    }
+    input::placeholder {
+      color: rgba(107,96,86,.45);
+    }
+
+    /* Consent box */
+    .consent {
+      margin-top: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid rgba(220,208,189,.9);
+      background: rgba(255,250,243,.88);
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+    .consent input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: var(--earth);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .consent label {
+      font-weight: 600;
+      color: var(--ink-soft);
+      font-size: .88rem;
+      cursor: pointer;
+    }
+    .consent label .sub {
+      display: block;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 3px;
+      font-size: .82rem;
+    }
+
+    /* ============================================================
+       LIKERT  –  Question cards
+       ============================================================ */
+    .qList {
+      display: grid;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .q {
+      border: 1.5px solid rgba(220,208,189,.9);
+      background: rgba(255,250,243,.97);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px 14px;
+      transition: border-color .15s ease;
+    }
+    .q.q-invalid {
+      border-color: var(--error-border);
+      background: rgba(254,242,242,.3);
+    }
+    .q p {
+      margin: 0 0 10px;
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    .likert {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .likertScale {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 6px;
+    }
+    .opt {
+      position: relative;
+      border: 1.5px solid rgba(90,58,36,.15);
+      background: rgba(255,250,243,.9);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      text-align: center;
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
+      line-height: 1.35;
+    }
+    .opt:hover {
+      transform: translateY(-1px);
+      border-color: rgba(90,58,36,.3);
+      box-shadow: 0 4px 12px rgba(60,36,16,.06);
+    }
+    .opt input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    /* Focus-visible for keyboard nav */
+    .opt:has(input:focus-visible) {
+      outline: 2px solid var(--fire);
+      outline-offset: 2px;
+    }
+
+    /* Default selected (Step 1 / fallback) */
+    .opt.selected {
+      border-color: rgba(90,58,36,.5);
+      background: rgba(250,234,209,.85);
+      box-shadow: 0 2px 8px rgba(90,58,36,.08);
+      font-weight: 600;
+    }
+
+    /* 🔥 Fire – warm red-orange tint */
+    [data-step="2"] .opt.selected {
+      border-color: rgba(199,86,28,.55);
+      background: rgba(199,86,28,.12);
+      box-shadow: 0 2px 8px rgba(199,86,28,.1);
+    }
+
+    /* 💧 Water – cool blue tint */
+    [data-step="3"] .opt.selected {
+      border-color: rgba(37,99,235,.45);
+      background: rgba(37,99,235,.1);
+      box-shadow: 0 2px 8px rgba(37,99,235,.08);
+    }
+
+    /* 🌬️ Air – cool silver-grey tint */
+    [data-step="4"] .opt.selected {
+      border-color: rgba(120,130,145,.5);
+      background: rgba(140,150,168,.12);
+      box-shadow: 0 2px 8px rgba(120,130,145,.08);
+    }
+
+    /* 🌍 Earth – warm rich brown tint */
+    [data-step="5"] .opt.selected {
+      border-color: rgba(120,72,30,.5);
+      background: rgba(139,90,43,.14);
+      box-shadow: 0 2px 8px rgba(120,72,30,.1);
+    }
+
+    /* ✨ Spirit – golden amber tint */
+    [data-step="6"] .opt.selected {
+      border-color: rgba(214,168,75,.55);
+      background: rgba(214,168,75,.14);
+      box-shadow: 0 2px 8px rgba(214,168,75,.1);
+    }
+
+    /* Element-colored chips per step */
+    [data-step="2"] .chip { color: #9a3c0a; background: rgba(199,86,28,.1); border-color: rgba(199,86,28,.2); }
+    [data-step="3"] .chip { color: #1e4fad; background: rgba(37,99,235,.08); border-color: rgba(37,99,235,.18); }
+    [data-step="4"] .chip { color: #4a5568; background: rgba(140,150,168,.12); border-color: rgba(120,130,145,.25); }
+    [data-step="5"] .chip { color: #6b4520; background: rgba(139,90,43,.12); border-color: rgba(120,72,30,.22); }
+    [data-step="6"] .chip { color: #8a6a20; background: rgba(214,168,75,.14); border-color: rgba(214,168,75,.25); }
+
+    .likertLegend {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: .76rem;
+      gap: 10px;
+      padding: 0 2px;
+      letter-spacing: .01em;
+    }
+
+    /* ============================================================
+       FORM NAV
+       ============================================================ */
+    .formNav {
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       INLINE ERROR MESSAGE  –  ED styled
+       ============================================================ */
+    .error {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--error-bg);
+      border: 1.5px solid var(--error-border);
+      color: var(--error-text);
+      font-size: .86rem;
+      font-weight: 600;
+      line-height: 1.45;
+      display: none;
+    }
+    .error::before {
+      content: "⚠ ";
+    }
+
+    /* ============================================================
+       THANK YOU
+       ============================================================ */
+    .thanks {
+      text-align: left;
+      padding: 8px 0 0;
+    }
+    .thanks p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .thanks .checkmark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(74,143,63,.12), rgba(74,143,63,.06));
+      border: 2px solid rgba(74,143,63,.25);
+      margin-bottom: 12px;
+      font-size: 1.5rem;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 860px) {
+      .card { padding: 22px 18px 20px; }
+      .grid { grid-template-columns: 1fr; }
+      .likertScale { grid-template-columns: 1fr; }
+      .opt { text-align: left; padding: 10px 14px; }
+      .likertLegend { display: none; }
+      .nav { padding: 10px 16px; }
+      .wrap { padding: 24px 16px 60px; }
+      .brand strong { font-size: .92rem; }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 18px 14px 16px; border-radius: var(--radius-lg); }
+      .q { padding: 12px 12px 10px; }
+      .formNav { gap: 8px; }
+      .section-title { gap: 8px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAV  –  matches ED site header
+     ============================================================ -->
+<header>
+  <div class="nav">
+    <a href="https://elemental-discovery.com" class="brand">
+      <img src="/images/minimalist logo nobg.png" alt="Elemental Discovery logo" />
+      <strong>Elemental Discovery</strong>
+    </a>
+    <div class="nav-actions">
+      <a class="btn ghost" href="https://elemental-discovery.com"><span class="arrow-left">←</span> Back</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main class="wrap">
+  <section class="card">
+    <h1>Elemental Balance Questionnaire</h1>
+    <p class="lead">
+      Answer a few questions across the five elements. You'll receive an email with your balance profile and a short practical interpretation.
+    </p>
+    <p class="note">
+      Scale: 1 = Strongly disagree &nbsp;→&nbsp; 5 = Strongly agree. Please answer based on how things have been recently.
+    </p>
+
+    <div class="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Questionnaire progress">
+      <div class="bar"><div id="barFill"></div></div>
+      <div class="stepLabel" id="stepLabel">Step 1 of 7</div>
+    </div>
+
+    <!-- ====== FORM (Formspree) ====== -->
+    <form id="qForm"
+          action="https://formspree.io/f/xbdrgezv"
+          method="POST"
+          novalidate>
+
+      <!-- Hidden meta -->
+      <input type="hidden" name="source" value="Elemental Balance Questionnaire" />
+      <input type="hidden" name="submittedAt" id="submittedAt" value="" />
+
+      <!-- ==================== STEP 1: Personal Info ==================== -->
+      <div class="step active" data-step="1">
+        <div class="section-title">
+          <h2>Personal information</h2>
+          <span class="chip">Start</span>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" type="text"
+                   autocomplete="name" required
+                   maxlength="120"
+                   placeholder="Your full name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email"
+                   autocomplete="email" required
+                   maxlength="254"
+                   placeholder="you@example.com" />
+          </div>
+
+          <div class="field">
+            <label for="age">Age <span class="label-opt">(optional)</span></label>
+            <input id="age" name="age" type="number"
+                   inputmode="numeric"
+                   min="13" max="120" step="1"
+                   placeholder="e.g. 34" />
+          </div>
+
+          <div class="field">
+            <label for="country">Country of residence <span class="label-opt">(optional)</span></label>
+            <input id="country" name="country" type="text"
+                   autocomplete="country-name"
+                   maxlength="60"
+                   placeholder="e.g. Netherlands, Spain" />
+          </div>
+        </div>
+
+        <div class="consent">
+          <input id="consent" name="consent" type="checkbox" value="yes" required />
+          <label for="consent">
+            I agree that my responses can be used to create my personal elemental analysis and that I will receive the results by email.
+            <span class="sub">You can request deletion of your data by emailing us.</span>
+          </label>
+        </div>
+
+        <div class="error" id="err1">Please complete your name, a valid email, and consent before continuing.</div>
+
+        <div class="formNav">
+          <span></span>
+          <button type="button" class="btn primary" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 2: Fire ==================== -->
+      <div class="step" data-step="2">
+        <div class="section-title">
+          <h2>Fire</h2>
+          <span class="chip">Purpose &amp; expression</span>
+        </div>
+        <div class="qList" id="fireQs"></div>
+        <div class="error" id="err2">Please answer all Fire questions before continuing.</div>
+        <div class="formNav">
+          <button type="button" class="btn" data-prev><span class="arrow-left">←</span> Back</button>
+          <button type="button" class="btn primary" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 3: Water ==================== -->
+      <div class="step" data-step="3">
+        <div class="section-title">
+          <h2>Water</h2>
+          <span class="chip">Body &amp; emotion</span>
+        </div>
+        <div class="qList" id="waterQs"></div>
+        <div class="error" id="err3">Please answer all Water questions before continuing.</div>
+        <div class="formNav">
+          <button type="button" class="btn" data-prev><span class="arrow-left">←</span> Back</button>
+          <button type="button" class="btn primary" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 4: Air ==================== -->
+      <div class="step" data-step="4">
+        <div class="section-title">
+          <h2>Air</h2>
+          <span class="chip">Mind &amp; attention</span>
+        </div>
+        <div class="qList" id="airQs"></div>
+        <div class="error" id="err4">Please answer all Air questions before continuing.</div>
+        <div class="formNav">
+          <button type="button" class="btn" data-prev><span class="arrow-left">←</span> Back</button>
+          <button type="button" class="btn primary" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 5: Earth ==================== -->
+      <div class="step" data-step="5">
+        <div class="section-title">
+          <h2>Earth</h2>
+          <span class="chip">Stability &amp; follow-through</span>
+        </div>
+        <div class="qList" id="earthQs"></div>
+        <div class="error" id="err5">Please answer all Earth questions before continuing.</div>
+        <div class="formNav">
+          <button type="button" class="btn" data-prev><span class="arrow-left">←</span> Back</button>
+          <button type="button" class="btn primary" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 6: Spirit ==================== -->
+      <div class="step" data-step="6">
+        <div class="section-title">
+          <h2>Spirit</h2>
+          <span class="chip">Meaning &amp; belonging</span>
+        </div>
+        <div class="qList" id="spiritQs"></div>
+        <div class="error" id="err6">Please answer all Spirit questions before continuing.</div>
+        <div class="formNav">
+          <button type="button" class="btn" data-prev><span class="arrow-left">←</span> Back</button>
+          <button type="submit" class="btn primary" id="finishBtn">Finish ✓</button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 7: Thank You ==================== -->
+      <div class="step" data-step="7">
+        <div class="section-title">
+          <h2>Thank you</h2>
+          <span class="chip">Completed</span>
+        </div>
+        <div class="thanks">
+          <div class="checkmark">✓</div>
+          <p style="font-size:1.02rem; color:var(--ink-soft); font-weight:500;">
+            Your questionnaire has been submitted successfully.
+          </p>
+          <p>
+            Your personalised elemental analysis will be sent shortly to the email you provided. Keep an eye on your inbox.
+          </p>
+          <div class="formNav" style="justify-content:flex-start; margin-top:18px;">
+            <a class="btn primary" href="https://elemental-discovery.com"><span class="arrow-left">←</span> Back to Homepage</a>
+          </div>
+          <p class="note" style="margin-top:14px;">
+            If you don't receive anything within 48 hours, please check your spam folder or email us directly.
+          </p>
+        </div>
+      </div>
+
+    </form>
+  </section>
+</main>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+  // ---------------------------
+  // QUESTIONS DATA
+  // ---------------------------
+  const QUESTIONS = {
+    fire: [
+      "I have a clear sense of purpose that guides my actions",
+      "I wake up most days feeling energized about what lies ahead",
+      "I generally feel free to express myself with others",
+      "I actively engage in activities that allow me to express who I am",
+      "I often hold back parts of myself that want to be expressed",
+      "I feel courageous when facing change or uncertainty",
+      "I take initiative when I sense something in my life needs to change",
+      "I feel internally alive rather than emotionally flat"
+    ],
+    water: [
+      "My body feels physically flexible rather than stiff",
+      "I can move through my full range of motion without discomfort",
+      "I feel tension or tightness in my body most days",
+      "My body generally feels relaxed when I am at rest",
+      "I notice stress as it shows up physically in my body",
+      "I can allow physical discomfort without immediately resisting it",
+      "Strong emotions tend to move through my body rather than get stuck",
+      "When emotions intensify, my body tightens or shuts down"
+    ],
+    air: [
+      "I am aware of my thoughts without getting caught up in them",
+      "I can bring my attention back to the present moment when it drifts",
+      "My mind feels clear and spacious",
+      "I can see multiple perspectives when faced with a challenge",
+      "My thinking often becomes repetitive or rigid",
+      "I feel mentally overwhelmed by my thoughts",
+      "I am able to pause before reacting in stressful situations",
+      "I can shift my focus intentionally when needed"
+    ],
+    earth: [
+      "I have clear goals that guide my daily actions",
+      "I feel confident about the direction my life is taking",
+      "I follow through on the commitments I make to myself",
+      "I am consistent in my efforts over time",
+      "I handle setbacks without giving up easily",
+      "I feel grounded and stable in my daily life",
+      "I often struggle to turn intentions into action",
+      "I trust my ability to build something step by step"
+    ],
+    spirit: [
+      "My life feels meaningful beyond day-to-day concerns",
+      "I feel connected to something larger than myself",
+      "I experience a sense of belonging in the world",
+      "Even during difficult times, I feel life has coherence",
+      "I feel supported by life, even when I cannot control outcomes",
+      "I feel deeply disconnected or isolated",
+      "My suffering feels random and meaningless",
+      "I feel aligned with values that transcend personal success"
+    ]
+  };
+
+  const LIKERT = [
+    { value: 1, label: "Strongly disagree" },
+    { value: 2, label: "Disagree" },
+    { value: 3, label: "Neutral" },
+    { value: 4, label: "Agree" },
+    { value: 5, label: "Strongly agree" }
+  ];
+
+  const form = document.getElementById("qForm");
+
+  // ---------------------------
+  // RENDER LIKERT QUESTIONS
+  // ---------------------------
+  function renderLikertQuestion(container, groupName, index, text) {
+    const qId = `${groupName}_${index + 1}`;
+
+    const q = document.createElement("div");
+    q.className = "q";
+    q.setAttribute("data-qid", qId);
+
+    const p = document.createElement("p");
+    p.textContent = `${index + 1}. ${text}`;
+    q.appendChild(p);
+
+    const likert = document.createElement("div");
+    likert.className = "likert";
+    likert.setAttribute("role", "radiogroup");
+    likert.setAttribute("aria-label", text);
+
+    const scale = document.createElement("div");
+    scale.className = "likertScale";
+
+    LIKERT.forEach((opt, optIdx) => {
+      const lbl = document.createElement("label");
+      lbl.className = "opt";
+      lbl.setAttribute("data-q", qId);
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = qId;
+      input.value = String(opt.value);
+      input.required = true;
+      input.setAttribute("tabindex", "0");
+
+      // Keyboard: Enter/Space selects
+      input.addEventListener("change", () => {
+        document.querySelectorAll(`.opt[data-q="${qId}"]`).forEach(el => el.classList.remove("selected"));
+        lbl.classList.add("selected");
+        // Clear invalid styling
+        q.classList.remove("q-invalid");
+      });
+
+      lbl.appendChild(input);
+      lbl.appendChild(document.createTextNode(`${opt.value} · ${opt.label}`));
+
+      lbl.addEventListener("click", () => {
+        input.checked = true;
+        input.dispatchEvent(new Event("change"));
+      });
+
+      scale.appendChild(lbl);
+    });
+
+    const legend = document.createElement("div");
+    legend.className = "likertLegend";
+    legend.innerHTML = `<span>Strongly disagree</span><span>Strongly agree</span>`;
+
+    likert.appendChild(scale);
+    likert.appendChild(legend);
+    q.appendChild(likert);
+    container.appendChild(q);
+  }
+
+  function renderAll() {
+    const targets = {
+      fire:   document.getElementById("fireQs"),
+      water:  document.getElementById("waterQs"),
+      air:    document.getElementById("airQs"),
+      earth:  document.getElementById("earthQs"),
+      spirit: document.getElementById("spiritQs")
+    };
+
+    Object.entries(QUESTIONS).forEach(([group, questions]) => {
+      questions.forEach((text, i) => renderLikertQuestion(targets[group], group, i, text));
+    });
+  }
+
+  renderAll();
+
+  // ---------------------------
+  // STEP NAVIGATION
+  // ---------------------------
+  const steps = Array.from(document.querySelectorAll(".step"));
+  const barFill = document.getElementById("barFill");
+  const stepLabel = document.getElementById("stepLabel");
+  const progressBar = document.querySelector(".progress");
+  let current = 1;
+  const totalSteps = 7;
+
+  function showStep(n) {
+    current = n;
+    steps.forEach(s => s.classList.toggle("active", Number(s.dataset.step) === n));
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function updateProgress() {
+    const pct = Math.round(((current - 1) / (totalSteps - 1)) * 100);
+    barFill.style.width = pct + "%";
+    stepLabel.textContent = current <= 6 ? `Step ${current} of ${totalSteps}` : "Complete";
+    progressBar.setAttribute("aria-valuenow", pct);
+
+    // Tint progress bar per element
+    const barGradients = {
+      1: "linear-gradient(90deg, #5a3a24, #c7561c)",       // default earth→fire
+      2: "linear-gradient(90deg, #c7561c, #e07a3a)",       // fire
+      3: "linear-gradient(90deg, #2563eb, #60a5fa)",       // water
+      4: "linear-gradient(90deg, #8c96a8, #aab4c4)",       // air – cool grey
+      5: "linear-gradient(90deg, #8b5a2b, #a67c52)",       // earth – warm brown
+      6: "linear-gradient(90deg, #d6a84b, #e8c46a)",       // spirit
+      7: "linear-gradient(90deg, #4a8f3f, #6ab35e)"        // complete / nature
+    };
+    barFill.style.background = barGradients[current] || barGradients[1];
+  }
+
+  // ---------------------------
+  // ERROR DISPLAY
+  // ---------------------------
+  function showError(stepNum, show, msg) {
+    const el = document.getElementById(`err${stepNum}`);
+    if (!el) return;
+    if (msg) el.textContent = msg;
+    el.style.display = show ? "block" : "none";
+  }
+
+  // ---------------------------
+  // STEP VALIDATION
+  // ---------------------------
+  function validateStep1() {
+    const nameEl   = document.getElementById("fullName");
+    const emailEl  = document.getElementById("email");
+    const ageEl    = document.getElementById("age");
+    const consentEl = document.getElementById("consent");
+
+    // Use Constraint Validation API
+    const nameOk    = nameEl.value.trim().length > 0 && nameEl.checkValidity();
+    const emailOk   = emailEl.value.trim().length > 0 && emailEl.checkValidity();
+    const consentOk = consentEl.checked;
+
+    // Age: optional but if filled must be valid number
+    let ageOk = true;
+    if (ageEl.value.trim() !== "") {
+      ageOk = ageEl.checkValidity();
+    }
+
+    // Build specific error message
+    const issues = [];
+    if (!nameOk)    issues.push("full name");
+    if (!emailOk)   issues.push("a valid email address");
+    if (!ageOk)     issues.push("a valid age (13–120)");
+    if (!consentOk) issues.push("consent checkbox");
+
+    if (issues.length > 0) {
+      showError(1, true, `Please provide: ${issues.join(", ")}.`);
+      // Focus first invalid field
+      if (!nameOk)         nameEl.focus();
+      else if (!emailOk)   emailEl.focus();
+      else if (!ageOk)     ageEl.focus();
+      else if (!consentOk) consentEl.focus();
+      return false;
+    }
+
+    showError(1, false);
+    return true;
+  }
+
+  function validateLikertStep(stepNum) {
+    const groupMap = { 2: "fire", 3: "water", 4: "air", 5: "earth", 6: "spirit" };
+    const group = groupMap[stepNum];
+    if (!group) return true;
+
+    const needed = QUESTIONS[group].length;
+    let firstMissing = null;
+
+    for (let i = 1; i <= needed; i++) {
+      const name = `${group}_${i}`;
+      const checked = form.querySelector(`input[name="${name}"]:checked`);
+      const qCard = form.querySelector(`[data-qid="${name}"]`);
+
+      if (!checked) {
+        if (qCard) qCard.classList.add("q-invalid");
+        if (!firstMissing && qCard) firstMissing = qCard;
+      } else {
+        if (qCard) qCard.classList.remove("q-invalid");
+      }
+    }
+
+    if (firstMissing) {
+      showError(stepNum, true);
+      firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+      // Focus first radio in that question card
+      const firstRadio = firstMissing.querySelector('input[type="radio"]');
+      if (firstRadio) setTimeout(() => firstRadio.focus(), 350);
+      return false;
+    }
+
+    showError(stepNum, false);
+    return true;
+  }
+
+  function stepValid(stepNum) {
+    if (stepNum === 1) return validateStep1();
+    return validateLikertStep(stepNum);
+  }
+
+  // ---------------------------
+  // CLICK HANDLERS (Next / Back)
+  // ---------------------------
+  document.addEventListener("click", (e) => {
+    const next = e.target.closest("[data-next]");
+    const prev = e.target.closest("[data-prev]");
+
+    if (prev) {
+      showError(current, false);
+      showStep(Math.max(1, current - 1));
+      return;
+    }
+
+    if (next) {
+      const ok = stepValid(current);
+      if (!ok) return;
+      showStep(Math.min(totalSteps, current + 1));
+    }
+  });
+
+  // ---------------------------
+  // REVERSE SCORING & ELEMENT MEANS
+  // ---------------------------
+  const REVERSE_ITEMS = {
+    fire:   [5],
+    water:  [3, 8],
+    air:    [5, 6],
+    earth:  [7],
+    spirit: [6, 7]
+  };
+
+  function reverseScore(val) {
+    // 1↔5, 2↔4, 3 stays
+    return 6 - val;
+  }
+
+  function computeElementScores() {
+    const results = {};
+
+    Object.entries(QUESTIONS).forEach(([group, questions]) => {
+      const reverseSet = new Set(REVERSE_ITEMS[group] || []);
+      let total = 0;
+      const corrected = [];
+
+      questions.forEach((_, i) => {
+        const qNum = i + 1;
+        const name = `${group}_${qNum}`;
+        const el = form.querySelector(`input[name="${name}"]:checked`);
+        const raw = el ? parseInt(el.value, 10) : 0;
+        const scored = reverseSet.has(qNum) ? reverseScore(raw) : raw;
+        corrected.push(scored);
+        total += scored;
+      });
+
+      const mean = (total / questions.length).toFixed(2);
+      results[group] = { corrected, mean };
+    });
+
+    return results;
+  }
+
+  function injectScoreFields(scores) {
+    // Remove any previously injected score fields
+    form.querySelectorAll(".score-field").forEach(el => el.remove());
+
+    Object.entries(scores).forEach(([group, { corrected, mean }]) => {
+      // Corrected individual scores
+      corrected.forEach((val, i) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = `${group}_${i + 1}_scored`;
+        input.value = String(val);
+        input.className = "score-field";
+        form.appendChild(input);
+      });
+
+      // Element mean
+      const meanInput = document.createElement("input");
+      meanInput.type = "hidden";
+      meanInput.name = `${group}_mean`;
+      meanInput.value = mean;
+      meanInput.className = "score-field";
+      form.appendChild(meanInput);
+    });
+  }
+
+  // ---------------------------
+  // FORM SUBMISSION (Formspree via fetch — stay on page)
+  // ---------------------------
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Validate Step 6 before submit
+    const ok = stepValid(6);
+    if (!ok) return;
+
+    // Timestamp
+    document.getElementById("submittedAt").value = new Date().toISOString();
+
+    // Compute reverse-scored values and element means, inject as hidden fields
+    const scores = computeElementScores();
+    injectScoreFields(scores);
+
+    // Show thank-you immediately
+    showStep(7);
+
+    // Prepare JSON payload for both endpoints
+    const formData = new FormData(form);
+    const jsonPayload = {};
+    formData.forEach((value, key) => { jsonPayload[key] = value; });
+
+    // 1. Submit to Formspree (backup record)
+    try {
+      await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      });
+    } catch (err) {
+      console.warn("Formspree submission error:", err);
+    }
+
+    // 2. Submit to Netlify Function (triggers automated analysis email)
+    try {
+      await fetch("/.netlify/functions/elemental-analysis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonPayload)
+      });
+    } catch (err) {
+      console.warn("Analysis pipeline error:", err);
+    }
+  });
+
+  // Init
+  updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!-- spirit.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spirit — Elemental Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --fire:     #E8915D;
+    --fire-tip: #D45A2A;
+    --water:    #6B9BBF;
+    --air:      #B8B5B0;
+    --earth:    #7AAE6D;
+    --spirit:   #F0C94D;
+    --outline:  #2B2B2B;
+
+    --cream:      #F6F2EC;
+    --warm-white:#FAF8F5;
+    --sand:       #E8DDD3;
+    --deep-earth:#2B2B2B;
+    --stone:      #5E5549;
+    --mist:       #8E8580;
+
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:   'Raleway', sans-serif;
+
+    --accent:     var(--spirit);
+    --accent-alt: #D9B63E;
+  }
+
+  html { scroll-behavior:smooth; font-size:16px; }
+  body {
+    background:var(--cream);
+    color:var(--deep-earth);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .reveal {
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity 1s cubic-bezier(.25,.46,.45,.94),
+               transform 1s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  nav {
+    position:fixed; top:0; width:100%; z-index:100;
+    padding:24px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:background .5s, box-shadow .5s;
+  }
+  nav.scrolled {
+    background:rgba(246,242,236,.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 1px 14px rgba(43,43,43,.07);
+  }
+  .nav-logo-wrap {
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none;
+  }
+  .nav-logo-wrap img { width:34px; height:34px; }
+  .nav-logo-text {
+    font-family:var(--font-display);
+    font-weight:300; font-size:1.05rem;
+    color:var(--deep-earth);
+    letter-spacing:.06em;
+  }
+  .nav-links {
+    display:flex; align-items:center; gap:24px;
+    flex-wrap:wrap; justify-content:flex-end; max-width:820px;
+  }
+  .nav-links a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--stone); text-decoration:none; margin-left:0;
+    transition:color .3s;
+  }
+  .nav-links a:hover { color:var(--deep-earth); }
+
+  .nav-dropdown { position:relative; display:inline-flex; align-items:center; }
+  .nav-dropdown > a {
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--stone); text-decoration:none; transition:color .3s;
+  }
+  .nav-dropdown > a:hover { color:var(--deep-earth); }
+  .dropdown-menu {
+    position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    margin-top:14px; min-width:190px; padding:10px;
+    background:rgba(250,248,245,0.96); backdrop-filter:blur(10px);
+    border:1px solid rgba(43,43,43,0.10); border-radius:14px;
+    box-shadow:0 16px 40px rgba(43,43,43,0.12);
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity .18s ease, visibility .18s ease, transform .18s ease;
+    z-index:999;
+  }
+  .nav-dropdown::after {
+    content:""; position:absolute; left:0; right:0; top:100%; height:18px;
+  }
+  .nav-dropdown:hover .dropdown-menu {
+    opacity:1; visibility:visible; pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .dropdown-menu a {
+    display:block; padding:10px 12px; border-radius:10px; text-decoration:none;
+    font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--stone); transition:background .2s ease, color .2s ease;
+  }
+  .dropdown-menu a:hover { background:rgba(43,43,43,0.05); color:var(--deep-earth); }
+
+  /* Spirit btn-primary uses dark text on gold */
+  .btn-primary {
+    display:inline-block; padding:14px 34px;
+    background:var(--accent); color:var(--deep-earth);
+    font-family:var(--font-body); font-size:.78rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+    border-radius:24px; border:2.5px solid var(--accent);
+    transition:background .35s, color .35s, box-shadow .35s;
+  }
+  .btn-primary:hover {
+    background:var(--accent-alt); border-color:var(--accent-alt);
+    box-shadow:0 4px 18px rgba(240,201,77,0.3);
+  }
+  .btn-secondary {
+    display:inline-flex; align-items:center; justify-content:center; font-size:.8rem; letter-spacing:.16em;
+    text-transform:uppercase; background:transparent; color:var(--stone);
+    text-decoration:none; border:2px solid var(--stone); border-radius:24px;
+    padding:12px 28px; transition:border-color .3s, color .3s, background .3s;
+  }
+  .btn-secondary:hover {
+    border-color:var(--deep-earth); color:var(--deep-earth);
+    background:rgba(43,43,43,0.04);
+  }
+
+  section { position:relative; z-index:1; }
+  .section-inner { max-width:700px; margin:0 auto; padding:0 28px; }
+  .section-label {
+    font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--mist); margin-bottom:18px;
+  }
+  .section-title {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(1.65rem,3vw,2.15rem);
+    color:var(--deep-earth); margin-bottom:30px; line-height:1.3;
+  }
+  .section-title em { font-style:italic; font-weight:300; }
+  .accent-line {
+    width:48px; height:3.5px; border-radius:2px;
+    background:var(--accent); margin:0 auto 0;
+  }
+
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:180px 24px 120px; position:relative; overflow:hidden;
+    background:url("images/spiritbackground1.webp") center / cover no-repeat;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(246,242,236,0.5) 0%, rgba(253,251,247,0.3) 40%, rgba(246,242,236,0.55) 100%),
+      radial-gradient(circle at 50% 50%, rgba(240,201,77,0.06) 0%, transparent 55%);
+    pointer-events:none;
+  }
+  .hero::after {
+    content:'';
+    position:absolute;
+    width:680px; height:680px;
+    border-radius:50%;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    animation:wash 20s ease-in-out infinite alternate;
+  }
+  @keyframes wash {
+    0%   { transform:translate(-50%,-50%) scale(1); }
+    100% { transform:translate(-50%,-50%) scale(1.06); }
+  }
+  .hero h1 {
+    font-family:var(--font-display); font-weight:300;
+    font-size:clamp(2.3rem,5.2vw,3.8rem); line-height:1.22;
+    color:var(--deep-earth); max-width:680px; position:relative; z-index:1;
+  }
+  .hero-sub {
+    margin-top:24px; font-size:1.04rem; color:var(--stone);
+    max-width:480px; line-height:1.9; position:relative; z-index:1;
+    font-style:italic;
+  }
+  .hero-ctas {
+    margin-top:52px; display:flex; gap:28px; align-items:center;
+    flex-wrap:wrap; justify-content:center; position:relative; z-index:1;
+  }
+
+  .what-section { padding:120px 24px; background:var(--cream); }
+  .what-section .accent-line { margin-bottom:40px; }
+  .what-section p {
+    color:var(--stone); font-size:1.06rem; max-width:600px;
+    margin:0 auto; text-align:center; line-height:2;
+  }
+  .spirit-callout {
+    max-width:600px; margin:48px auto 0; padding:32px 36px;
+    background:linear-gradient(135deg, #fdfbf7 0%, #f8f4ee 100%);
+    border:2px dashed var(--spirit); border-radius:20px;
+    text-align:center; box-shadow:0 2px 16px rgba(43,43,43,.05);
+  }
+  .spirit-callout p {
+    font-style:italic; color:var(--mist); font-size:.95rem; line-height:1.9;
+  }
+
+  .balance-section { padding:110px 24px; background:var(--warm-white); }
+  .balance-header { text-align:center; margin-bottom:60px; }
+  .balance-header .accent-line { margin-bottom:0; }
+  .balance-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:36px;
+    max-width:820px; margin:0 auto;
+  }
+  .balance-card {
+    padding:40px 32px; border-radius:16px; background:#fff;
+    box-shadow:0 2px 18px rgba(43,43,43,.06);
+  }
+  .balance-card h4 {
+    font-family:var(--font-display); font-weight:400; font-size:1.08rem;
+    color:var(--deep-earth); margin-bottom:16px;
+  }
+  .balance-card p { font-size:.92rem; color:var(--stone); line-height:1.9; }
+  .balance-card.in-balance { border-top:4px dashed var(--accent); }
+  .balance-card.out-balance { border-top:4px dashed var(--sand); }
+
+  .practices-section { padding:110px 24px; background:var(--cream); }
+  .practices-header { text-align:center; margin-bottom:60px; }
+  .practices-header .accent-line { margin-bottom:0; }
+  .practices-list { max-width:640px; margin:0 auto; }
+  .practice-item { padding:28px 0; border-bottom:1px dashed var(--sand); }
+  .practice-item:last-child { border-bottom:none; }
+  .practice-item h4 {
+    font-family:var(--font-display); font-weight:400; font-size:1.05rem;
+    color:var(--deep-earth); margin-bottom:8px;
+  }
+  .practice-item p { font-size:.9rem; color:var(--stone); line-height:1.85; }
+
+  .integration-section {
+    position:relative; padding:140px 24px 150px; background:var(--warm-white);
+    text-align:center; overflow:hidden; border-top:1px solid var(--sand);
+  }
+  .integration-section::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(232,145,93,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 70% 60%, rgba(107,155,191,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 50% 80%, rgba(122,174,109,0.03) 0%, transparent 35%),
+      radial-gradient(circle at 50% 30%, rgba(240,201,77,0.06) 0%, transparent 45%);
+    pointer-events:none;
+  }
+  .integration-section .section-label,
+  .integration-section .section-title,
+  .integration-section p,
+  .integration-section .integration-ctas { position:relative; z-index:1; }
+  .integration-section .section-title { max-width:540px; margin:0 auto 18px; }
+  .integration-section .inv-sub {
+    color:var(--stone); font-size:1rem; max-width:480px;
+    margin:0 auto 48px; line-height:2; font-style:italic;
+  }
+  .integration-ctas { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+
+  footer {
+    background:var(--cream); border-top:1px solid var(--sand);
+    padding:40px 28px; text-align:center;
+  }
+  .footer-logo-wrap {
+    display:flex; align-items:center; justify-content:center;
+    gap:10px; margin-bottom:12px;
+  }
+  .footer-logo-wrap img { width:24px; height:24px; opacity:.6; }
+  .footer-logo-text {
+    font-family:var(--font-display); font-weight:300; font-size:.95rem;
+    color:var(--deep-earth); letter-spacing:.08em;
+  }
+  footer p { font-size:.75rem; color:var(--mist); letter-spacing:.08em; }
+
+  @media(max-width:980px){
+    nav { padding:20px 26px; }
+    .nav-links { gap:16px; }
+    .nav-links a { font-size:.72rem; letter-spacing:.14em; }
+    .balance-grid { grid-template-columns:1fr; max-width:520px; }
+  }
+  @media(max-width:520px){
+    .nav-links { gap:12px; }
+    .spirit-callout { padding:24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo-wrap">
+    <img src="images/minimalist logo nobg.png" alt="Elemental Discovery logo" />
+    <span class="nav-logo-text">Elemental Discovery</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <div class="nav-dropdown">
+      <a href="/elements/">Elements</a>
+      <div class="dropdown-menu">
+        <a href="/elements/fire/">Fire</a>
+        <a href="/elements/water/">Water</a>
+        <a href="/elements/air/">Air</a>
+        <a href="/elements/earth/">Earth</a>
+        <a href="/elements/spirit/">Spirit</a>
+      </div>
+    </div>
+    <a href="/offerings/">Offerings</a>
+    <a href="/retreat/">Retreat</a>
+    <a href="/community/">Community</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</nav>
+
+<!-- 1. HERO -->
+<section class="hero" id="top">
+  <h1 class="reveal">
+    Spirit — the element<br>
+    that threads through all
+  </h1>
+  <p class="hero-sub reveal">
+    Not a thing to grasp, but a presence to encounter — the quiet centre where meaning, mystery, and the self converge.
+  </p>
+  <div class="hero-ctas reveal">
+    <a href="/analysis/" class="btn-primary">Free Elemental Analysis</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<!-- 2. WHAT IT IS -->
+<section class="what-section">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center">The element</div>
+    <h2 class="section-title reveal" style="text-align:center">What Spirit <em>is</em></h2>
+    <div class="accent-line reveal"></div>
+    <p class="reveal" style="margin-top:36px">
+      Spirit is the element that cannot be isolated. It has no technique, no organ, no season. It is the connective tissue of the whole system — the sense that your life means something, that there is a coherence beneath the chaos. Not faith in the religious sense, but the lived experience of belonging to something larger than yourself.
+    </p>
+    <p class="reveal" style="margin-top:20px">
+      Where fire acts, water feels, air thinks, and earth holds, spirit asks: why? And more importantly: for what? It is the element you encounter in those rare moments when the noise falls away and something truer is briefly visible.
+    </p>
+    <div class="spirit-callout reveal">
+      <p>Spirit is not practised so much as encountered — in the quiet spaces where the self opens beyond itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. IN BALANCE / OUT OF BALANCE -->
+<section class="balance-section">
+  <div class="balance-header">
+    <div class="section-label reveal">The spectrum</div>
+    <h2 class="section-title reveal">In balance and <em>out of it</em></h2>
+    <div class="accent-line reveal"></div>
+  </div>
+  <div class="balance-grid">
+    <div class="balance-card in-balance reveal">
+      <h4>In Balance</h4>
+      <p>
+        Life feels coherent, even when it's hard. You sense a thread of meaning running through your days. There's an openness to mystery — a willingness to not know everything — that brings peace rather than anxiety. You feel connected: to yourself, to others, to something you might not be able to name.
+      </p>
+    </div>
+    <div class="balance-card out-balance reveal">
+      <h4>Out of Balance</h4>
+      <p>
+        When spirit is depleted, everything can be technically fine and still feel hollow. Success doesn't satisfy. Relationships feel transactional. There's a flatness, a "what's the point" quality that no amount of productivity can resolve. Conversely, excess spirit without grounding can become spiritual bypassing — using meaning-making to avoid the real, difficult work of living.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PRACTICES -->
+<section class="practices-section">
+  <div class="practices-header">
+    <div class="section-label reveal">Working with spirit</div>
+    <h2 class="section-title reveal">Practices</h2>
+    <div class="accent-line reveal"></div>
+  </div>
+  <div class="practices-list">
+    <div class="practice-item reveal">
+      <h4>Silence</h4>
+      <p>Ten minutes a day with no input — no sound, no screen, no book. Just you and whatever is there. Spirit lives in the spaces we usually fill. The practice is not to achieve anything. It's to stop achieving, briefly, and see what remains.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>The Meaning Question</h4>
+      <p>At the end of each week, ask yourself: what mattered this week? Not what got done — what mattered. Write it down. Over time, a pattern emerges. That pattern is spirit trying to show you what your life is actually about.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>Awe Seeking</h4>
+      <p>Go somewhere that makes you feel small — a night sky, an old forest, the ocean, a cathedral. Spirit awakens when the ego loosens. You don't need to understand the feeling. You just need to let it in.</p>
+    </div>
+    <div class="practice-item reveal">
+      <h4>Honest Connection</h4>
+      <p>Have one conversation this week where you say something real — something you normally keep behind politeness or performance. Spirit is not a solo project. It lives in the space between people when that space is honest.</p>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:52px;" class="reveal">
+    <a href="/offerings/" class="btn-primary">Explore All Offerings</a>
+  </div>
+</section>
+
+<!-- 5. INTEGRATION -->
+<section class="integration-section">
+  <div class="section-label reveal">Integration</div>
+  <h2 class="section-title reveal">Spirit is not separate<br><em>from the rest</em></h2>
+  <p class="inv-sub reveal">
+    It lives inside the fire of your purpose, the depth of your feelings, the clarity of your thinking, the steadiness of your ground. You don't need to go somewhere special to find it. You need to be present enough, and honest enough, to notice it's already here.
+  </p>
+  <div class="integration-ctas reveal">
+    <a href="/analysis/" class="btn-primary">Free Elemental Analysis</a>
+    <a href="/retreat/" class="btn-secondary">View Retreats</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="images/minimalist logo nobg.png" alt="" />
+    <span class="footer-logo-text">Elemental Discovery</span>
+  </div>
+  <p>&copy; 2025 Elemental Discovery. All rights reserved.</p>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 50); });
+
+  var reveals = document.querySelectorAll('.reveal');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var siblings = Array.from(entry.target.parentElement.children).filter(function(el){ return el.classList.contains('reveal'); });
+        var idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = (idx * 120) + 'ms';
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.15 });
+  reveals.forEach(function(el){ obs.observe(el); });
+})();
+</script>
+
+</body>
+</html>
