@@ -146,185 +146,185 @@ Return ONLY the JSON.`;
 const ELEMENT_BLOCKS = {
   fire: {
     Low: {
-      body: `When Fire is low, it often shows up as hesitation. Reduced drive. Difficulty taking action even when you know what you want. There can be a flatness — suppressed anger, muted desire, a dampened relationship with your own vitality.
+      body: `When Fire is low, it often shows up as reduced drive, hesitation, or difficulty taking decisive action. You may know what you want but find yourself unable to move toward it. There can be a sense of flatness — suppressed anger, suppressed desire, or a muted relationship with your own vitality.
 
-This doesn't mean weakness. It usually means the flame has been turned down — by circumstance, by habit, or by a long stretch of playing it safe. The invitation isn't to force intensity. It's to reconnect with what genuinely moves you.`,
+Low Fire does not mean weakness. It often means the flame has been dampened — by environment, by habit, or by an extended period of playing small. The invitation is not to force intensity, but to rekindle contact with what genuinely moves you.`,
       advice: [
-        "Short daily physical activation — even 10 minutes that raise your heart rate",
-        "Set one clear boundary this week",
+        "Short daily physical activation — even 10 minutes of movement that raises your heart rate",
+        "Practice setting one clear boundary per week",
         "Take one bold or uncomfortable action each day, however small",
-        "Reconnect with challenge — competition, confrontation, anything that stirs your edge",
+        "Reconnect with competition, challenge, or anything that stirs your edge",
         "Reduce passivity: less scrolling, less spectating, more doing"
       ]
     },
     Medium: {
-      body: `Your Fire is there, but it's inconsistent. You act with conviction when inspired — but when motivation dips, so does your follow-through. There may be stretches of real clarity followed by withdrawal or hesitation.
+      body: `Your Fire is present but inconsistent. You likely act with energy and conviction when inspiration strikes, but struggle to sustain that drive when motivation dips. There may be periods of great clarity followed by withdrawal or hesitation.
 
-This is workable. The key isn't more intensity. It's learning to act even when the spark isn't fully lit.`,
+This is a common and workable pattern. The key is not more intensity, but more consistency — learning to act even when the spark isn't fully lit.`,
       advice: [
         "Set structured goals with clear timelines — not just intentions",
-        "Weekly discomfort practice: cold exposure, hard conversations, physical challenge",
-        "Say what you mean more often — sharpen direct communication",
-        "Track your follow-through honestly for 30 days",
-        "Notice when you dim yourself to avoid conflict. Choose differently."
+        "Weekly discomfort practice: cold exposure, difficult conversations, physical challenge",
+        "Sharpen direct communication — say what you mean more often",
+        "Track your follow-through honestly over 30 days",
+        "Notice when you dim yourself to avoid conflict, and choose differently"
       ]
     },
     High: {
-      body: `Strong Fire brings drive, decisiveness, and visible intensity. You likely move with purpose. People may look to you for direction or energy.
+      body: `Strong Fire brings drive, courage, magnetism, and the ability to take decisive action. You likely move through life with visible intensity and purpose. People may look to you for leadership, direction, or energy.
 
-The shadow side: burnout, impatience, dominance, or an inability to rest. When Fire runs unchecked, it consumes what it was meant to fuel. The invitation isn't to suppress it — it's to channel it with more precision.`,
+The shadow side of high Fire is burnout, impatience, dominance, or an inability to rest. When Fire runs unchecked, it can consume what it was meant to fuel. The invitation is not to suppress your fire, but to channel it wisely.`,
       advice: [
-        "Integrate cooling practices: breathwork, nature, intentional stillness",
-        "Listen fully before responding — especially under pressure",
+        "Integrate cooling practices: breathwork, time in nature, intentional stillness",
+        "Practice listening fully before responding — especially under pressure",
         "Channel intensity into long-term creation, not just short-term action",
         "Soften the need to control outcomes",
-        "Ask yourself: am I acting from clarity, or from restlessness?"
+        "Ask: am I acting from clarity, or from restlessness?"
       ]
     }
   },
   water: {
     Low: {
-      body: `Low Water often shows up in the body first. Tension. Rigidity. A sense of being cut off from your own emotional life. You may carry stress without realising it, or find it hard to access vulnerability, grief, or tenderness.
+      body: `Low Water often manifests as physical tension, emotional rigidity, or a sense of being cut off from your own feeling life. You may hold stress in your body without realising it, or find it difficult to access vulnerability, grief, or tenderness.
 
-Water is the element of flow. When it's depleted, life feels dry and overly controlled. The invitation is simple but not easy: soften. Let yourself feel what's actually there.`,
+Water is the element of flow. When it's depleted, life can feel dry, rigid, or overly controlled. The invitation is to soften — to let yourself feel what is actually there.`,
       advice: [
         "Daily body check-in: where are you holding tension right now?",
-        "Gentle movement — swimming, stretching, yoga, walking in nature",
-        "Let emotions surface without immediately solving or suppressing them",
+        "Gentle movement practices: swimming, stretching, yoga, or walking in nature",
+        "Allow emotions to surface without immediately solving or suppressing them",
         "Spend time near water — baths, rivers, the sea",
-        "Journal on one question: \"What am I actually feeling?\""
+        "Journaling focused on \"What am I actually feeling?\""
       ]
     },
     Medium: {
-      body: `Your Water is functional but not yet flowing freely. You can access emotion and body awareness at times, but there are areas where you still hold back or disconnect. Some feelings move through you easily. Others get stuck.
+      body: `Your Water is functional but not yet flowing freely. You can access emotion and body awareness at times, but there may be areas where you still hold back, tighten up, or disconnect. You might notice that certain emotions move through you easily while others get stuck.
 
-The foundation is there. It needs more permission and more practice.`,
+This is a place of potential. The foundation is there — it simply needs more permission and practice.`,
       advice: [
-        "Deepen body awareness through consistent somatic practice",
+        "Deepen your body awareness through consistent somatic practice",
         "Notice which emotions you welcome and which ones you resist",
-        "Stay with discomfort a few seconds longer before reacting",
+        "Practice staying with discomfort a few seconds longer before reacting",
         "Create regular space for unstructured feeling: music, art, nature",
         "Explore what softness means to you — and where you might allow more of it"
       ]
     },
     High: {
-      body: `Strong Water gives you emotional depth, embodied awareness, and a natural capacity for empathy. You likely feel things intensely. Your inner life may be rich and textured.
+      body: `Strong Water gives you deep emotional intelligence, embodied awareness, and a natural capacity for empathy and connection. You likely feel things intensely and may have a rich inner life.
 
-The risk: overwhelm, emotional flooding, weak boundaries, or absorbing what isn't yours. When Water runs unchecked, it drowns what it was meant to nourish.`,
+The risk of high Water without balance is overwhelm, emotional flooding, poor boundaries, or absorbing others' emotions. When Water runs unchecked, it can drown what it was meant to nourish.`,
       advice: [
         "Strengthen boundaries: not everything you feel is yours to carry",
-        "Ground your emotional life with structure and routine (Earth element)",
-        "Learn to tell the difference between your feelings and others'",
+        "Ground your emotional life with clear structure and routine (Earth element)",
+        "Learn to differentiate between your feelings and others'",
         "Balance receptivity with assertive action (Fire element)",
-        "Ask yourself: am I feeling deeply, or being swept away?"
+        "Ask: am I feeling deeply, or am I being swept away?"
       ]
     }
   },
   air: {
     Low: {
-      body: `Low Air can show up as mental fog. Rigid thinking. Difficulty seeing other perspectives, or a tendency to react before reflecting. You may feel stuck — looping through the same thoughts, unable to zoom out.
+      body: `Low Air can show up as mental fog, rigid thinking, difficulty seeing other perspectives, or a tendency to react before reflecting. You may feel mentally stuck — trapped in repetitive thought patterns or unable to zoom out from your situation.
 
-Air governs spaciousness of mind. When it's low, the inner landscape narrows. The invitation: create more room. Between stimulus and response. Between thought and belief.`,
+Air governs spaciousness of mind. When it's low, the inner landscape can feel narrow and cluttered. The invitation is to create more room — between stimulus and response, between thought and belief.`,
       advice: [
-        "Daily mindfulness or meditation — even 5 minutes counts",
+        "Daily mindfulness or meditation practice — even 5 minutes",
         "Seek perspectives that challenge your current thinking",
-        "Pause before responding, especially when stressed",
-        "Read or engage with ideas outside your usual domain",
+        "Practice pausing before responding, especially in stressful moments",
+        "Read, learn, or engage with ideas outside your usual domain",
         "Spend time in open spaces — physically and mentally"
       ]
     },
     Medium: {
-      body: `Your Air is active but not fully consistent. You think clearly when conditions are right. Under stress, you may revert to overthinking, mental loops, or tunnel vision. The capacity is there — it deepens with attention.`,
+      body: `Your Air element is active but not fully consistent. You can think clearly and hold perspective when conditions are right, but under stress you may revert to overthinking, mental loops, or narrow focus. There is capacity here that deepens with attention.`,
       advice: [
         "Build a consistent reflective practice — journaling, meditation, or contemplation",
-        "Notice when your thinking becomes rigid. Consciously widen the frame.",
+        "Notice when your thinking becomes rigid and consciously widen the frame",
         "Practice expressing your thoughts clearly and directly",
-        "When overwhelmed, write it down — get it out of your head",
+        "When overwhelmed, write it down — externalise the mental load",
         "Balance thinking with embodied action to avoid analysis paralysis"
       ]
     },
     High: {
-      body: `Strong Air gives you mental clarity, creative perspective, and the ability to hold complexity. You likely see patterns others miss. You communicate with precision.
+      body: `Strong Air gives you clarity of thought, creative perspective, and the ability to hold complexity. You likely see patterns others miss, communicate with precision, and bring mental agility to challenges.
 
-The shadow: overthinking, detachment, or living too much in the mind. You may understand everything conceptually but struggle to feel it, embody it, or act on it.`,
+The shadow of high Air is overthinking, detachment, intellectual arrogance, or living too much in the mind. When Air dominates, you may understand everything conceptually but struggle to feel it, embody it, or act on it.`,
       advice: [
         "Ground your insights in physical action and embodied practice",
         "Notice when thinking replaces feeling — drop from the head into the body",
         "Simplify: not every thought needs to be followed",
         "Practice being present without analysing",
-        "Ask yourself: am I seeing clearly, or just thinking cleverly?"
+        "Ask: am I seeing clearly, or just thinking cleverly?"
       ]
     }
   },
   earth: {
     Low: {
-      body: `Low Earth often shows up as inconsistency. Difficulty following through. A lack of routine, or a sense of being ungrounded. You may have big visions but struggle to sustain the effort to realise them. Finances, health, or daily structure may feel neglected.
+      body: `Low Earth often shows up as inconsistency, difficulty following through, lack of routine, or a sense of being ungrounded. You may have big visions but struggle to translate them into sustained action. Finances, health habits, or daily structure may feel chaotic or neglected.
 
-Earth is the element of foundation. Without it, everything else stays potential. The invitation isn't rigidity — it's building the container that holds your growth.`,
+Earth is the element of foundation. Without it, everything else remains potential. The invitation is not to become rigid, but to build the container that holds your growth.`,
       advice: [
         "Establish one non-negotiable daily routine and protect it",
-        "Finish what you start before beginning something new",
+        "Focus on follow-through: finish what you start before beginning something new",
         "Simplify your commitments — depth over breadth",
-        "Spend time in nature, feet on the ground",
+        "Spend time in nature, with your feet on the ground",
         "Address practical foundations: finances, health, living environment"
       ]
     },
     Medium: {
-      body: `Your Earth is present but not fully solid. You sustain effort when motivated, but consistency wavers under pressure or boredom. Structure exists in some areas of your life but not others. Functional — but there's room to build something more reliable.`,
+      body: `Your Earth is present but not yet fully solid. You can sustain effort when motivated, but consistency may waver under pressure or boredom. You have structure in some areas of life but not others. The pattern is functional, but there is room to build something more reliable.`,
       advice: [
         "Audit your routines: where is structure strong, and where does it break down?",
         "Set weekly goals that are specific and measurable",
         "Practice patience with slow, incremental progress",
-        "Stay with difficult tasks longer than feels comfortable",
-        "Notice the gap between intention and action. Close it deliberately."
+        "Build resilience by staying with difficult tasks longer than comfortable",
+        "Notice the gap between intention and action — close it deliberately"
       ]
     },
     High: {
-      body: `Strong Earth gives you discipline, reliability, and a grounded presence. You follow through. You maintain routines. People likely rely on you as a steady force.
+      body: `Strong Earth gives you discipline, reliability, persistence, and a grounded presence. You likely follow through on commitments, maintain consistent routines, and create stability for yourself and others.
 
-The shadow: rigidity, resistance to change, over-control. When Earth dominates, growth can stall. The structure that supports you also confines you.`,
+The shadow of high Earth is rigidity, resistance to change, over-control, or becoming so rooted that you cannot adapt. When Earth dominates, growth can stall because the structure that supports you also confines you.`,
       advice: [
         "Introduce more spontaneity and flexibility into your routines",
-        "Let go of control in small, deliberate ways",
+        "Practice letting go of control in small, deliberate ways",
         "Allow space for emotional expression and creative risk (Fire and Water)",
         "Question whether your discipline serves growth or avoids discomfort",
-        "Ask yourself: am I building, or just holding on?"
+        "Ask: am I building, or am I just holding on?"
       ]
     }
   },
   spirit: {
     Low: {
-      body: `Low Spirit often feels like disconnection. A quiet hollowness. Life may be functional but lacking deeper purpose. You go through the motions without quite knowing why.
+      body: `Low Spirit often manifests as a feeling of disconnection, meaninglessness, or existential flatness. Life may feel functional but hollow — like going through the motions without deeper purpose.
 
-Spirit is the element of meaning. When it's low, the question shifts from "What should I do?" to "What does any of it mean?" The invitation isn't to force belief. It's to open — toward connection, toward others, toward something that matters.`,
+Spirit is the element of meaning. When it's low, the question is not "What should I do?" but "What does any of it mean?" The invitation is not to force belief, but to open toward connection — with others, with nature, with purpose.`,
       advice: [
-        "Explore what gives you meaning — beyond achievement or productivity",
+        "Explore what gives you a sense of meaning — beyond achievement or productivity",
         "Seek community or belonging: isolation drains Spirit",
         "Spend time in nature, ritual, or practices that connect you to something larger",
         "Reflect on your values — are you living in alignment with them?",
-        "Sit with the big questions. You don't need to answer them."
+        "Allow yourself to sit with the big questions without needing answers"
       ]
     },
     Medium: {
-      body: `Your Spirit is present but inconsistent. There are moments of deep meaning and connection, but they're not yet the baseline. Under pressure, meaning fades and isolation returns. The foundation is there. It can be strengthened.`,
+      body: `Your Spirit is present but perhaps inconsistent. You have moments of deep meaning and connection, but they are not yet the baseline. Under pressure, meaning can fade and isolation may return. There is a foundation of purpose here that can be strengthened.`,
       advice: [
         "Develop a consistent practice that nourishes your sense of meaning",
-        "Deepen connection to community, nature, or creative expression",
-        "Revisit your core values — notice where daily life drifts from them",
-        "Create small rituals that mark transitions and intentions",
-        "Practice gratitude not as technique, but as genuine attention to what is good"
+        "Deepen your connection to community, nature, or creative expression",
+        "Revisit your core values and notice where daily life drifts from them",
+        "Create rituals — even small ones — that mark transitions and intentions",
+        "Practice gratitude not as a technique, but as genuine attention to what is good"
       ]
     },
     High: {
-      body: `Strong Spirit gives you a deep sense of meaning, connection, and coherence. You likely feel aligned with your values and connected to something beyond the personal.
+      body: `Strong Spirit gives you a deep sense of meaning, connection, and coherence. You likely feel aligned with your values, connected to something beyond yourself, and able to hold suffering within a larger frame.
 
-The shadow: dissociation, spiritual bypassing, or avoiding practical reality. When Spirit dominates, you may float above life rather than fully engaging with it.`,
+The shadow of high Spirit without grounding is dissociation, spiritual bypassing, or avoidance of practical reality. When Spirit dominates, you may float above life rather than fully engaging with it.`,
       advice: [
         "Ground your spiritual life in embodied action and practical contribution",
-        "Be honest about what you might be avoiding through spiritual framing",
+        "Be honest about what you may be avoiding through spiritual framing",
         "Stay connected to the messy, human parts of life — not just the transcendent",
-        "Make sure your sense of meaning translates into tangible impact",
-        "Ask yourself: am I truly connected, or am I floating?"
+        "Ensure your sense of meaning translates into tangible impact",
+        "Ask: am I truly connected, or am I floating?"
       ]
     }
   }
