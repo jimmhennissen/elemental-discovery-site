@@ -499,22 +499,19 @@ exports.handler = async (event) => {
     const emailHtml = buildEmail(fullName, scores, strongest, weakest, personalised);
 
     // ── Send via Resend ──
-const fiveMinutesFromNow = new Date(Date.now() + 1000 * 60 * 5).toISOString();
-
-const sendResponse = await fetch("https://api.resend.com/emails", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${process.env.RESEND_API_KEY}`
-  },
-  body: JSON.stringify({
-    from: "Elemental Discovery <analysis@elemental-discovery.com>",
-    to: [email],
-    subject: `Your Elemental Balance Analysis, ${fullName.split(" ")[0]}`,
-    html: emailHtml,
-    scheduledAt: fiveMinutesFromNow   // ← THIS LINE
-  })
-});
+    const sendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.RESEND_API_KEY}`
+      },
+      body: JSON.stringify({
+        from: "Elemental Discovery <analysis@elemental-discovery.com>",
+        to: [email],
+        subject: `Your Elemental Balance Analysis, ${fullName.split(" ")[0]}`,
+        html: emailHtml
+      })
+    });
 
     const sendResult = await sendResponse.json();
     console.log("Email sent:", sendResult);
