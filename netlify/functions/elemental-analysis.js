@@ -506,7 +506,7 @@ exports.handler = async (event) => {
         "Authorization": `Bearer ${process.env.RESEND_API_KEY}`
       },
       body: JSON.stringify({
-        from: "Elemental Discovery <analysis@elemental-discovery.com>",
+        from: "Elemental Discovery <retreat@elemental-discovery.com>",
         to: [email],
         subject: `Your Elemental Balance Analysis, ${fullName.split(" ")[0]}`,
         html: emailHtml
