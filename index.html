@@ -705,6 +705,21 @@ footer p {
     display:block;
   }
 
+  /* ── Village Preview ── */
+  .village-preview-img {
+    width:100%;
+    max-width:680px;
+    height:auto;
+    border-radius:16px;
+    box-shadow:0 4px 24px rgba(43,43,43,.1);
+    transition:transform .4s ease, box-shadow .4s ease;
+    cursor:pointer;
+  }
+  .village-preview-img:hover {
+    transform:translateY(-3px);
+    box-shadow:0 8px 32px rgba(43,43,43,.15);
+  }
+
     /* ── Responsive ── */
   @media(max-width:980px){
     nav { padding:20px 26px; }
@@ -972,14 +987,22 @@ footer p {
   </div>
 </section>
 
-<!-- ══════════ 5C. COMMUNITY ══════════ -->
+<!-- ══════════ 5C. VILLAGE VISION TEASER ══════════ -->
 <section class="simple-section" id="community">
   <div class="section-inner">
     <div class="section-label reveal" style="text-align:center;">Community</div>
     <h2 class="section-title reveal" style="text-align:center;">A long-term village vision</h2>
     <p class="reveal" style="text-align:center;">
-      Elemental Discovery is building toward a living community village. If you feel called to contribute, collaborate, or support the vision, reach out.
+      Beyond the retreats and current offerings, Elemental Discovery also carries a long-term spatial vision: a living environment shaped by the same principles of balance, embodiment, and connection to the land. This next page offers a first look at how that vision could take form.
     </p>
+    <div class="village-preview reveal" style="text-align:center; margin-top:40px;">
+      <a href="village-vision.html">
+        <img src="images/elemental-village.webp" alt="Elemental Discovery village masterplan — an aerial view of the long-term spatial vision" class="village-preview-img" />
+      </a>
+    </div>
+    <div class="reveal" style="text-align:center; margin-top:36px;">
+      <a href="village-vision.html" class="btn-secondary">Explore the Village Vision</a>
+    </div>
   </div>
 </section>
 
@@ -989,7 +1012,7 @@ footer p {
     <div class="section-label reveal" style="text-align:center;">Contact</div>
     <h2 class="section-title reveal" style="text-align:center;">Let's connect</h2>
     <p class="reveal" style="text-align:center;">
-      For collaborations, questions, or support: <a class="inline-link" href="mailto:retreat@elemental-discovery.com">retreat@elemental-discovery.com</a>
+      For collaborations, questions, or support: <a class="inline-link" href="/cdn-cgi/l/email-protection#ccbea9b8bea9adb88ca9a0a9a1a9a2b8ada0e1a8a5bfafa3baa9beb5e2afa3a1"><span class="__cf_email__" data-cfemail="027067767067637642676e676f676c76636e2f666b71616d7467707b2c616d6f">[email&#160;protected]</span></a>
     </p>
   </div>
 </section>
@@ -1018,7 +1041,7 @@ footer p {
 </footer>
 
 <!-- ── Scroll Reveal ── -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
   const nav = document.getElementById('mainNav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
@@ -1029,12 +1052,12 @@ footer p {
       if(entry.isIntersecting){
         const siblings = [...entry.target.parentElement.children].filter(el => el.classList.contains('reveal'));
         const idx = siblings.indexOf(entry.target);
-        setTimeout(() => entry.target.classList.add('visible'), idx * 110);
+        entry.target.style.transitionDelay = (idx * 120) + 'ms';
+        entry.target.classList.add('visible');
         obs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-
+  }, { threshold:0.15 });
   reveals.forEach(el => obs.observe(el));
 })();
 </script>
