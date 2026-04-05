@@ -431,7 +431,7 @@ function buildEmail(name, scores, strongest, weakest, personalised) {
   <tr><td style="padding:24px 36px 36px;">
     <hr style="border:none;border-top:1px solid #DACAB6;margin:0 0 24px;" />
     <p style="font-size:15px;color:#44382C;line-height:1.8;margin:0 0 16px;">Your elements are not something you fix. They are something you learn to harmonise.</p>
-    <p style="font-size:15px;color:#44382C;line-height:1.8;margin:0 0 24px;">If you have questions about your results, just reply to this email.</p>
+    <p style="font-size:15px;color:#44382C;line-height:1.8;margin:0 0 24px;">If you would like to book a 1-on-1 coaching session or have any questions about upcoming retreats, just reply to this email or DM us on Instagram: @elementaldiscovery_</p>
     <p style="font-size:15px;color:#44382C;line-height:1.8;margin:0;">Jim</p>
     <p style="font-size:15px;color:#907E6A;line-height:1.8;margin:0;">Elemental Discovery</p>
   </td></tr>
